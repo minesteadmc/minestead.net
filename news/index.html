@@ -8,11 +8,7 @@ description: "Latest news and updates from Minestead."
   <div class="wrapper">
     <section id="news">
 
-      {% if paginator.posts.size == 0 %}
-        <div class="panel">
-          <p class="news-empty">No posts yet. Check back soon.</p>
-        </div>
-      {% else %}
+      {% if paginator.posts.size > 0 %}
         {% for post in paginator.posts %}
         <div class="panel news-card">
           <div class="news-card-header">
@@ -43,6 +39,10 @@ description: "Latest news and updates from Minestead."
           {% endif %}
         </div>
         {% endif %}
+      {% else %}
+        <div class="panel">
+          <p class="news-empty">No posts yet. Check back soon.</p>
+        </div>
       {% endif %}
 
     </section>
