@@ -101,7 +101,12 @@ nav a:hover {
 /* ── Hero ── */
 
 #join {
-  padding: 32px 0 12px;
+  padding: 32px 0 0;
+}
+
+#about,
+#rules {
+  scroll-margin-top: 32px;
 }
 
 .hero-row-top {
