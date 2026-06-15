@@ -1,0 +1,50 @@
+---
+layout: default
+title: "News"
+description: "Latest news and updates from Minestead."
+---
+
+<main>
+  <div class="wrapper">
+    <section id="news">
+
+      {% if paginator.posts.size == 0 %}
+        <div class="panel">
+          <p class="news-empty">No posts yet. Check back soon.</p>
+        </div>
+      {% else %}
+        {% for post in paginator.posts %}
+        <div class="panel news-card">
+          <div class="news-card-header">
+            <h2 class="section-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
+            <span class="news-date">{{ post.date | date: "%B %-d, %Y" }}</span>
+          </div>
+          {% if post.excerpt %}
+            <div class="post-body news-excerpt">{{ post.excerpt }}</div>
+          {% endif %}
+          <a href="{{ post.url }}" class="btn btn-green news-read-more">Read more</a>
+        </div>
+        {% endfor %}
+
+        {% if paginator.total_pages > 1 %}
+        <div class="pagination">
+          {% if paginator.previous_page %}
+            <a class="btn btn-green" href="{{ paginator.previous_page_path }}">Back</a>
+          {% else %}
+            <span class="btn btn-disabled">Back</span>
+          {% endif %}
+
+          <span class="pagination-info">Page {{ paginator.page }} / {{ paginator.total_pages }}</span>
+
+          {% if paginator.next_page %}
+            <a class="btn btn-green" href="{{ paginator.next_page_path }}">Next</a>
+          {% else %}
+            <span class="btn btn-disabled">Next</span>
+          {% endif %}
+        </div>
+        {% endif %}
+      {% endif %}
+
+    </section>
+  </div>
+</main>

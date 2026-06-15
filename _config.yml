@@ -1,0 +1,13 @@
+title: Minestead
+description: "A community Survival SMP Minecraft server. No pay-to-win, no gimmicks. Just Minecraft."
+url: "https://minestead.net"
+baseurl: ""
+theme: null
+plugins:
+  - jekyll-paginate
+paginate: 5
+paginate_path: /news/page:num/
+permalink: /news/:year/:month/:day/:title/
+excerpt_separator: "<!--more-->"
+exclude:
+  - README.md

@@ -7,13 +7,19 @@
 }
 
 body {
-  background-image: url('image/bg_main.png');
+  background-image: url('/assets/images/bg_main.png');
   background-repeat: repeat;
   background-attachment: fixed;
   font-family: 'VT323', monospace;
   font-size: 20px;
   color: #ffffff;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
 
 .wrapper {
@@ -56,7 +62,7 @@ nav {
 
 nav a {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 11px;
   color: #c8c8c8;
   text-decoration: none;
   padding: 9px 13px;
@@ -75,10 +81,10 @@ nav a:hover {
 /* ── Panel ── */
 
 .panel {
-  background: rgba(38, 38, 38, 0.95);
+  background: rgba(58, 58, 58, 0.95);
   border: 4px solid #000;
   box-shadow:
-    inset 2px 2px 0 #3a3a3a,
+    inset 2px 2px 0 #4e4e4e,
     inset -2px -2px 0 #000,
     0 4px 16px rgba(0, 0, 0, 0.6);
   padding: 28px;
@@ -89,7 +95,7 @@ nav a:hover {
 
 .section-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 18px;
   color: #ffd700;
   text-shadow: 2px 2px 0 #7a6000, 1px 1px 0 #000;
   margin-bottom: 22px;
@@ -123,7 +129,7 @@ nav a:hover {
 }
 
 .hero-art {
-  height: 170px;
+  height: 200px;
   flex-shrink: 0;
   image-rendering: pixelated;
   align-self: center;
@@ -132,7 +138,7 @@ nav a:hover {
 
 .hero-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 10px;
   color: #666;
   text-shadow: 1px 1px 0 #000;
   margin-bottom: 16px;
@@ -165,7 +171,7 @@ nav a:hover {
 
 .btn {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 11px;
   padding: 12px 50px;
   background: #555;
   border: 4px solid;
@@ -232,7 +238,7 @@ nav a:hover {
 
 .status-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 11px;
   text-shadow: 1px 1px 0 #000;
   white-space: nowrap;
 }
@@ -247,7 +253,7 @@ nav a:hover {
   min-width: 0;
   font-size: 26px;
   line-height: 1.55;
-  color: #aaa;
+  color: #c8c8c8;
   text-shadow: 1px 1px 0 #000;
 }
 
@@ -310,7 +316,7 @@ nav a:hover {
 
 .step-num {
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 13px;
   color: #7ec850;
   text-shadow: 1px 1px 0 #1a3a00;
   background: #0d1a0d;
@@ -330,7 +336,7 @@ nav a:hover {
 
 .steps li code {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 14px;
   color: #7ec850;
   background: #050505;
   border: 2px solid #2a2a2a;
@@ -363,7 +369,7 @@ nav a:hover {
 
 .rule-num {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 10px;
   color: #ffd700;
   text-shadow: 1px 1px 0 #7a6000;
   flex-shrink: 0;
@@ -383,8 +389,8 @@ footer {
 
 footer p {
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
-  color: #444;
+  font-size: 9px;
+  color: #666;
   text-shadow: 1px 1px 0 #000;
   line-height: 2.4;
 }
@@ -420,11 +426,12 @@ footer a:hover {
   }
 
   .hero-art {
-    display: none;
+    align-self: center;
+    padding-top: 4px;
   }
 
   nav a {
-    font-size: 7px;
+    font-size: 9px;
     padding: 7px 9px;
   }
 
@@ -433,11 +440,223 @@ footer a:hover {
   }
 
   .server-ip {
-    font-size: 12px;
+    font-size: 14px;
     padding: 12px 14px;
   }
 
   .panel {
     padding: 20px 16px;
+  }
+}
+
+/* ── News listing ── */
+
+#news,
+#not-found {
+  padding: 32px 0 0;
+}
+
+.section-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.section-title a:hover {
+  color: #ffe84d;
+}
+
+.news-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 0;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #111;
+}
+
+.news-card-header .section-title {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.news-date {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #aaa;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.news-excerpt {
+  margin: 12px 0 0;
+}
+
+.news-read-more {
+  padding: 8px 20px;
+  font-size: 10px;
+  margin-top: 12px;
+}
+
+.news-empty {
+  font-size: 20px;
+  color: #c0c0c0;
+}
+
+/* ── Pagination ── */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 8px;
+  margin-bottom: 32px;
+}
+
+.pagination-info {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #888;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.btn-disabled {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  padding: 12px 50px;
+  background: #2a2a2a;
+  border: 4px solid;
+  border-color: #3a3a3a #111 #111 #3a3a3a;
+  color: #444;
+  text-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 1px;
+  line-height: 1;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Post page ── */
+
+.post-back {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  margin-bottom: 18px;
+}
+
+.post-back a {
+  color: #7ec850;
+  text-decoration: none;
+  text-shadow: 1px 1px 0 #1a3a00;
+}
+
+.post-back a:hover {
+  color: #aaffaa;
+}
+
+.post-article {
+  padding-top: 32px;
+}
+
+.post-card .post-body {
+  margin-top: 16px;
+}
+
+.post-header-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1048 / 400;
+  object-fit: cover;
+  margin-top: 16px;
+  border: 4px solid #000;
+  box-shadow:
+    inset 2px 2px 0 #4e4e4e,
+    inset -2px -2px 0 #000,
+    0 4px 16px rgba(0, 0, 0, 0.6);
+  margin-bottom: 24px;
+}
+
+.post-body {
+  font-size: 22px;
+  line-height: 1.65;
+  color: #d0d0d0;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.post-body p {
+  margin-bottom: 18px;
+}
+
+.post-body p:last-child {
+  margin-bottom: 0;
+}
+
+.post-body h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #ffd700;
+  text-shadow: 2px 2px 0 #7a6000, 1px 1px 0 #000;
+  margin-bottom: 16px;
+  margin-top: 28px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #111;
+  letter-spacing: 1px;
+}
+
+.post-body h3 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #7ec850;
+  text-shadow: 1px 1px 0 #1a3a00;
+  margin-bottom: 12px;
+  margin-top: 22px;
+}
+
+.post-body ul,
+.post-body ol {
+  padding-left: 24px;
+  margin-bottom: 18px;
+}
+
+.post-body li {
+  margin-bottom: 8px;
+  line-height: 1.55;
+}
+
+.post-body strong {
+  color: #fff;
+}
+
+.post-body a {
+  color: #7ec850;
+  text-decoration: none;
+}
+
+.post-body a:hover {
+  color: #aaffaa;
+}
+
+.post-body code {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: #7ec850;
+  background: #050505;
+  border: 2px solid #2a2a2a;
+  padding: 2px 8px;
+}
+
+@media (max-width: 600px) {
+  .news-title {
+    font-size: 10px;
+  }
+
+  .post-body h2 {
+    font-size: 10px;
   }
 }

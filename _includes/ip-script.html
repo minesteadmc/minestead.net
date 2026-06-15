@@ -1,0 +1,41 @@
+<script>
+  function copyIP() {
+    const btn = document.getElementById('copy-btn');
+    navigator.clipboard.writeText('minestead.net').then(() => {
+      btn.style.width = btn.offsetWidth + 'px';
+      btn.textContent = 'Copied!';
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.style.width = '';
+      }, 2000);
+    });
+  }
+
+  (async function fetchStatus() {
+    const signal = document.getElementById('status-signal');
+    const label  = document.getElementById('status-label');
+
+    try {
+      const res  = await fetch('https://api.mcstatus.io/v2/status/java/minestead.net');
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+
+      signal.classList.remove('loading');
+
+      if (data.online) {
+        signal.src        = '/assets/images/online.png';
+        label.textContent = 'ONLINE · JAVA 26.1.2';
+        label.className   = 'status-label online';
+      } else {
+        signal.src        = '/assets/images/offline.png';
+        label.textContent = 'OFFLINE · JAVA 26.1.2';
+        label.className   = 'status-label offline';
+      }
+    } catch (_) {
+      signal.src        = '/assets/images/offline.png';
+      signal.classList.remove('loading');
+      label.textContent = 'JAVA 26.1.2';
+      label.className   = 'status-label unknown';
+    }
+  })();
+</script>

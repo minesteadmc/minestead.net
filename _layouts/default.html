@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% if page.title %}{{ page.title }} — Minestead{% else %}Minestead{% endif %}</title>
+  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}" />
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/style/style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="wrapper">
+      <div class="header-inner">
+        <a class="logo" href="/">MINESTEAD</a>
+        <nav>
+          <a href="/#join">Join</a>
+          <a href="/#about">About</a>
+          <a href="/#rules">Rules</a>
+          <a href="/news">News</a>
+          <a href="https://map.minestead.net" target="_blank" rel="noopener noreferrer">Map</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  {{ content }}
+
+  <footer>
+    <div class="wrapper">
+      <p>&copy; 2026 Minestead. All rights reserved.</p>
+      <p>Not affiliated with Mojang Studios or Microsoft.</p>
+    </div>
+  </footer>
+
+  {% if page.include_ip_script %}{% include ip-script.html %}{% endif %}
+
+</body>
+</html>
