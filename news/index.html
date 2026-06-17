@@ -15,6 +15,9 @@ description: "Latest news and updates from Minestead."
             <h2 class="section-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
             <span class="news-date">{{ post.date | date: "%B %-d, %Y" }}</span>
           </div>
+          {% if post.header_image %}
+            <img src="{{ post.header_image }}" alt="{{ post.title }}" class="post-header-image news-card-image">
+          {% endif %}
           {% if post.excerpt %}
             <div class="post-body news-excerpt">{{ post.excerpt }}</div>
           {% endif %}
