@@ -13,6 +13,9 @@ layout: default
           <h1 class="section-title">{{ page.title }}</h1>
           <span class="news-date">{{ page.date | date: "%B %-d, %Y" }}</span>
         </div>
+        {% if page.header_image %}
+        <img src="{{ page.header_image }}" alt="{{ page.title }}" class="post-header-image">
+        {% endif %}
         <div class="post-body">
           {{ content }}
         </div>
