@@ -280,6 +280,28 @@ nav a:hover {
   color: #aaffaa;
 }
 
+.about-list {
+  padding-left: 24px;
+  font-size: 22px;
+  line-height: 1.65;
+  color: #d0d0d0;
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 0;
+}
+
+.about-list li {
+  margin-bottom: 6px;
+}
+
+.about-list a {
+  color: #7ec850;
+  text-decoration: none;
+}
+
+.about-list a:hover {
+  color: #aaffaa;
+}
+
 /* ── Rules notice ── */
 
 .rules-notice {
