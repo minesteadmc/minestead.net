@@ -473,6 +473,11 @@ footer a:hover {
   .server-ip {
     font-size: 14px;
     padding: 12px 14px;
+    overflow: hidden;
+  }
+
+  .btn {
+    padding: 10px 20px;
   }
 
   .panel {
