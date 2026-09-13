@@ -15,35 +15,44 @@ include_ip_script: true
             <span class="server-ip" id="ip-text">minestead.net</span>
             <button class="btn btn-green" id="copy-btn" onclick="copyIP()">Copy</button>
           </div>
-          <div class="server-status">
+          <div class="server-status" id="server-status">
             <img src="/assets/images/offline.png" alt="" class="status-signal loading" id="status-signal" />
-            <span class="status-label loading" id="status-label">JAVA 26.1.2</span>
+            <span class="status-label loading" id="status-label"><button type="button" class="status-count" id="status-count" disabled>JAVA</button><span id="status-version"></span></span>
           </div>
         </div>
         <div class="hero-row-bottom">
-          <p class="hero-tagline">A classic survival experience with other players. No gimmicks. Just Minecraft.</p>
+          <p class="hero-tagline">A classic survival experience on hard difficulty. What will you do on Minestead?</p>
           <img src="/assets/images/animals.png" alt="" class="hero-art" />
         </div>
       </div>
     </section>
+
+    <div class="modal-overlay" id="player-modal-overlay" hidden>
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="player-modal-title">
+        <button type="button" class="modal-close" id="player-modal-close" aria-label="Close">X</button>
+        <div class="modal-header">
+          <span class="modal-title" id="player-modal-title">PLAYERS ONLINE</span>
+        </div>
+        <ul class="modal-players" id="modal-players"></ul>
+      </div>
+    </div>
 
     <!-- About -->
     <section id="about">
       <div class="panel">
         <h2 class="section-title">ABOUT</h2>
         <p class="about-text">
-          Minestead is a vanilla survival multiplayer server on hard difficulty. No ranks, land claims, teleporting, donations, store, or Discord server.
+          Minestead is a vanilla survival multiplayer server on hard difficulty. We don't have any pay-to-win ranks, land claims, or teleporting.
         </p>
         <p class="about-text">
-          Join a town or venture into the wild, trade with players using diamonds, and build road networks to travel the world. Minestead has a few extra features:
+          Join a town or venture into the wild, trade with players using diamonds, and build road networks to travel the world. We have a few quality of life tweaks:
         </p>
         <ul class="about-list">
-          <li>Talk with the <a href="https://modrinth.com/plugin/simple-voice-chat" target="_blank">Simple Voice Chat</a> mod.</li>
-          <li>Build with mini blocks and animal and player heads.</li>
-          <li>Pick the perfect painting and strip logs in the stonecutter.</li>
-          <li>Silence annoying mobs in your farms with a nametag.</li>
-          <li>Always get two shulker shells when raiding end cities.</li>
-          <li>Not every player has to sleep to skip the night.</li>
+          <li>Talk with other players using the <a href="https://modrinth.com/plugin/simple-voice-chat" target="_blank">Simple Voice Chat</a> mod.</li>
+          <li>Build with mini blocks from the stonecutter and get mob heads as loot.</li>
+          <li>Pick the perfect painting or quickly strip your logs in the stonecutter.</li>
+          <li>Make your base more peaceful by using a "silence" name tag on mobs.</li>
+          <li>Store even more items by always getting two shulker shells.</li>
         </ul>
       </div>
     </section>
@@ -78,7 +87,7 @@ include_ip_script: true
           </li>
           <li>
             <span class="rule-num">6.</span>
-            <span>No unsolicited PVP or trapping players.</span>
+            <span>PVP is enabled but you must ask before fighting and trapping.</span>
           </li>
           <li>
             <span class="rule-num">7.</span>

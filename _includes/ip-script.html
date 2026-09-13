@@ -11,9 +11,64 @@
     });
   }
 
+  function shortVersion(nameClean) {
+    if (!nameClean) return null;
+    const parts = nameClean.trim().split(/\s+/);
+    return parts[parts.length - 1];
+  }
+
   (async function fetchStatus() {
-    const signal = document.getElementById('status-signal');
-    const label  = document.getElementById('status-label');
+    const signal       = document.getElementById('status-signal');
+    const label        = document.getElementById('status-label');
+    const statusBox    = document.getElementById('server-status');
+    const countBtn     = document.getElementById('status-count');
+    const versionSpan  = document.getElementById('status-version');
+    const modalOverlay = document.getElementById('player-modal-overlay');
+    const modalClose   = document.getElementById('player-modal-close');
+    const modalPlayers = document.getElementById('modal-players');
+
+    function openModal() {
+      modalOverlay.hidden = false;
+      modalClose.focus();
+    }
+
+    function closeModal() {
+      modalOverlay.hidden = true;
+      countBtn.focus();
+    }
+
+    statusBox.addEventListener('click', () => {
+      if (statusBox.classList.contains('has-players')) openModal();
+    });
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalOverlay.hidden) closeModal();
+    });
+
+    function setPlayers(players) {
+      if (players && players.length) {
+        modalPlayers.innerHTML = players
+          .map((p) => {
+            const name = p.name_clean || p.name_raw;
+            const head = p.uuid
+              ? `<img class="player-head" src="https://api.mineatar.io/head/${p.uuid}" alt="" />`
+              : '';
+            return `<li>${head}<span>${name}</span></li>`;
+          })
+          .join('');
+        countBtn.classList.add('has-players');
+        statusBox.classList.add('has-players');
+        countBtn.disabled = false;
+      } else {
+        modalPlayers.innerHTML = '';
+        countBtn.classList.remove('has-players');
+        statusBox.classList.remove('has-players');
+        countBtn.disabled = true;
+      }
+    }
 
     try {
       const res  = await fetch('https://api.mcstatus.io/v2/status/java/minestead.net');
@@ -22,20 +77,27 @@
 
       signal.classList.remove('loading');
 
+      const version = shortVersion(data.version && data.version.name_clean);
+      versionSpan.textContent = version ? ` · JAVA ${version}` : '';
+
       if (data.online) {
-        signal.src        = '/assets/images/online.png';
-        label.textContent = 'ONLINE · JAVA 26.1.2';
-        label.className   = 'status-label online';
+        const playersOnline = (data.players && data.players.online) || 0;
+        signal.src           = '/assets/images/online.png';
+        countBtn.textContent = playersOnline > 0 ? `${playersOnline} ONLINE` : 'ONLINE';
+        label.className      = 'status-label online';
+        setPlayers(playersOnline > 0 ? data.players.list : null);
       } else {
-        signal.src        = '/assets/images/offline.png';
-        label.textContent = 'OFFLINE · JAVA 26.1.2';
-        label.className   = 'status-label offline';
+        signal.src           = '/assets/images/offline.png';
+        countBtn.textContent = 'OFFLINE';
+        label.className      = 'status-label offline';
+        setPlayers(null);
       }
     } catch (_) {
-      signal.src        = '/assets/images/offline.png';
+      signal.src            = '/assets/images/offline.png';
       signal.classList.remove('loading');
-      label.textContent = 'JAVA 26.1.2';
-      label.className   = 'status-label unknown';
+      countBtn.textContent  = 'UNKNOWN';
+      label.className       = 'status-label unknown';
+      setPlayers(null);
     }
   })();
 </script>

@@ -220,6 +220,143 @@ nav a:hover {
   flex-shrink: 0;
 }
 
+.status-count {
+  font: inherit;
+  color: inherit;
+  text-shadow: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: default;
+}
+
+.server-status.has-players {
+  cursor: pointer;
+}
+
+.status-count.has-players {
+  cursor: pointer;
+  text-decoration: underline dashed;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.status-count.has-players:hover,
+.status-count.has-players:focus-visible {
+  color: #aaffaa;
+}
+
+/* ── Player list modal ── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-box {
+  position: relative;
+  background: rgba(58, 58, 58, 0.98);
+  border: 4px solid #000;
+  box-shadow:
+    inset 2px 2px 0 #4e4e4e,
+    inset -2px -2px 0 #000,
+    0 4px 16px rgba(0, 0, 0, 0.6);
+  padding: 24px;
+  width: 100%;
+  min-width: 280px;
+  min-height: 220px;
+  max-width: 360px;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding-right: 34px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #000;
+}
+
+.modal-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #7ec850;
+  text-shadow: 1px 1px 0 #1a3a00;
+  white-space: nowrap;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #fff;
+  background: #7a2a2a;
+  border: 3px solid;
+  border-color: #aa5555 #2a0a0a #2a0a0a #aa5555;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: #9a3a3a;
+  border-color: #cc7777 #3a0a0a #3a0a0a #cc7777;
+}
+
+.modal-close:active {
+  background: #5a1a1a;
+  border-color: #2a0a0a #cc7777 #cc7777 #2a0a0a;
+  transform: translateY(1px);
+}
+
+.modal-players {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-players li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 22px;
+  color: #d0d0d0;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.player-head {
+  width: 38px;
+  height: 38px;
+  image-rendering: pixelated;
+  border: 2px solid;
+  border-color: #111 #4e4e4e #4e4e4e #111;
+  background: #222;
+  flex-shrink: 0;
+}
+
 .status-signal {
   image-rendering: pixelated;
   height: 24px;
@@ -315,11 +452,6 @@ nav a:hover {
   text-shadow: 1px 1px 0 #3a2a00;
   line-height: 1.55;
 }
-
-.rules-notice::before {
-  content: '⚠  ';
-}
-
 
 /* ── How to Join ── */
 
