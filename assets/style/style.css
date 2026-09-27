@@ -453,6 +453,16 @@ nav a:hover {
   line-height: 1.55;
 }
 
+.rules-notice-error {
+  background: #140000;
+  border-color: #6a0000;
+  box-shadow: inset 1px 1px 0 #300000, inset -1px -1px 0 #000;
+  color: #ff5555;
+  text-shadow: 1px 1px 0 #3a0000;
+  margin-top: 22px;
+  margin-bottom: 0;
+}
+
 /* ── How to Join ── */
 
 .steps {
