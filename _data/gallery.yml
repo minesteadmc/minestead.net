@@ -1,0 +1,13 @@
+# Screenshots shown in the About section gallery, in display order.
+# Put image files in /assets/images/gallery/. `thumb` is optional and
+# defaults to `image` — add a smaller copy if the page gets too heavy.
+#
+# - image: /assets/images/gallery/spawn-town.png
+#   thumb: /assets/images/gallery/spawn-town-thumb.png
+#   caption: Spawn town at sunset
+
+- image: /assets/images/gallery/spawn.png
+  caption: Check out the rules at spawn
+
+- image: /assets/images/gallery/lodestones.png
+  caption: Manage your lodestones with a compass
