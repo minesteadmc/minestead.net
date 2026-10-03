@@ -7,7 +7,13 @@
 #   caption: Spawn town at sunset
 
 - image: /assets/images/gallery/spawn.png
-  caption: Check out the rules at spawn
+  caption: Read the rules and server info at spawn
 
 - image: /assets/images/gallery/lodestones.png
-  caption: Manage your lodestones with a compass
+  caption: Manage and share your lodestones with a compass
+
+- image: /assets/images/gallery/tickets.png
+  caption: Advanced screens and GUIs - all in vanilla!
+
+- image: /assets/images/gallery/sulfurcaves.png
+  caption: Explore the latest biomes with fast updates
