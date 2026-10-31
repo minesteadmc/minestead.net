@@ -9,7 +9,7 @@
 body {
   background-image: url('/assets/images/bg_main.png');
   background-repeat: repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
   font-family: 'VT323', monospace;
   font-size: 20px;
   color: #ffffff;
@@ -434,11 +434,19 @@ nav a:hover {
   line-height: 1.65;
   color: #d0d0d0;
   text-shadow: 1px 1px 0 #000;
+  margin-bottom: 22px;
+}
+
+.about-list:last-child {
   margin-bottom: 0;
 }
 
 .about-list li {
   margin-bottom: 6px;
+}
+
+.about-list li:last-child {
+  margin-bottom: 0;
 }
 
 .about-list a {
@@ -617,6 +625,10 @@ nav a:hover {
   color: #d0d0d0;
   text-shadow: 1px 1px 0 #000;
   line-height: 1.5;
+}
+
+.rules-list li:first-child {
+  padding-top: 0;
 }
 
 .rules-list li:last-child {

@@ -5,7 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% if page.title %}{{ page.title }} - Minestead{% else %}Minestead{% endif %}</title>
   <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}" />
+  {% assign seo_title = page.title | default: site.title %}
+  {% assign seo_description = page.description | default: site.description | strip_html | strip_newlines %}
+  {% assign seo_image = page.og_image | default: page.header_image | default: site.og_image %}
+  <link rel="canonical" href="{{ page.url | absolute_url }}" />
   <meta property="og:site_name" content="{{ site.title }}" />
+  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}" />
+  <meta property="og:title" content="{{ seo_title | escape }}" />
+  <meta property="og:description" content="{{ seo_description | escape }}" />
+  <meta property="og:url" content="{{ page.url | absolute_url }}" />
+  {% if seo_image %}
+  <meta property="og:image" content="{{ seo_image | absolute_url }}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  {% endif %}
   {% if page.url == "/" %}
   <script type="application/ld+json">
   {
@@ -43,7 +55,7 @@
 
   <footer>
     <div class="wrapper">
-      <p>&copy; 2026 Minestead. All rights reserved.</p>
+      <p>&copy; Minestead. All rights reserved.</p>
       <p>Not affiliated with Mojang Studios or Microsoft.</p>
     </div>
   </footer>

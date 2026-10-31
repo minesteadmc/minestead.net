@@ -1,6 +1,7 @@
 title: Minestead
 description: "Welcome to Minestead, a survival multiplayer Minecraft server on hard difficulty. Come play vanilla survival (with some tweaks) with a friendly community! What will you do on Minestead?"
 url: "https://minestead.net"
+og_image: /assets/images/gallery/spawn.png
 baseurl: ""
 theme: null
 plugins:
