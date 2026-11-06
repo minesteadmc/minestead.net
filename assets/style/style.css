@@ -46,23 +46,14 @@ header {
 }
 
 .logo {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 26px;
-  color: #ffffff;
-  text-shadow: 2px 2px 0 #000, 4px 4px 0 #000;
-  text-decoration: none;
-  letter-spacing: 2px;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
 }
 
-.logo-icon {
-  width: 40px;
+.logo-wordmark {
   height: 40px;
-  image-rendering: pixelated;
-  filter: drop-shadow(2px 2px 0 #000) drop-shadow(2px 2px 0 #000);
-  transform: translateY(-2px);
+  width: auto;
+  display: block;
 }
 
 nav {
@@ -676,15 +667,8 @@ footer a:hover {
 /* ── Responsive ── */
 
 @media (max-width: 600px) {
-  .logo {
-    font-size: 18px;
-    gap: 8px;
-  }
-
-  .logo-icon {
-    width: 28px;
+  .logo-wordmark {
     height: 28px;
-    transform: translateY(-1px);
   }
 
   .header-inner {
