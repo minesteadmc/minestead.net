@@ -11,32 +11,9 @@ include_gallery_script: true
     <section id="join">
       <div class="panel">
         <h2 class="section-title">JOIN</h2>
-        <div class="hero-row-top">
-          <div class="server-ip-box">
-            <span class="server-ip" id="ip-text">minestead.net</span>
-            <button class="btn btn-green" id="copy-btn" onclick="copyIP()">Copy</button>
-          </div>
-          <div class="server-status" id="server-status">
-            <img src="/assets/images/offline.png" alt="" class="status-signal loading" id="status-signal" />
-            <span class="status-label loading" id="status-label"><button type="button" class="status-count" id="status-count" disabled>JAVA</button><span id="status-version"></span></span>
-          </div>
-        </div>
-        <div class="hero-row-bottom">
-          <p class="hero-tagline">An old school survival server on hard difficulty. What will you do on Minestead?</p>
-          <img src="/assets/images/animals.png" alt="" class="hero-art" />
-        </div>
+        {% include join-card.html %}
       </div>
     </section>
-
-    <div class="modal-overlay" id="player-modal-overlay" hidden>
-      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="player-modal-title">
-        <button type="button" class="modal-close" id="player-modal-close" aria-label="Close">X</button>
-        <div class="modal-header">
-          <span class="modal-title" id="player-modal-title">PLAYERS ONLINE</span>
-        </div>
-        <ul class="modal-players" id="modal-players"></ul>
-      </div>
-    </div>
 
     <div class="modal-overlay" id="gallery-modal-overlay" hidden>
       <div class="modal-box modal-box-gallery" role="dialog" aria-modal="true" aria-labelledby="gallery-modal-title">
@@ -63,11 +40,9 @@ include_gallery_script: true
           Join a town to play with others or venture into the wild to build on your own. There's just a few tweaks to make vanilla more fun for multiplayer:
         </p>
         <ul class="about-list">
-          <li>Instead of teleporting, use a compass to view and share your lodestones with others.</li>
-          <li>Speed up your building by choosing a painting or stripping logs in the stonecutter.</li>
-          <li>Mobs can drop their heads and you can craft mini blocks in the stonecutter.</li>
-          <li>Make your base and farms more peaceful by using a "silence" name tag on mobs.</li>
-          <li>End raiding is less stressful since all shulkers drop two shells when they die.</li>
+          <li>Instead of teleporting, use a compass to view and share your lodestones with others using a custom GUI right in vanilla. Public lodestones show up on the <a href="https://map.minestead.net">world map</a>.</li>
+          <li>Speed up your building by choosing a painting or stripping logs in the stonecutter. You can also use it to make mini blocks for decoration and get mob heads as loot.</li>
+          <li>Make your base and farms more peaceful by using a "silence" name tag on mobs. Shulkers also drop two shells so you can spend less time end city raiding.</li>
         </ul>
         <p class="about-text">
           Fewer mods and plugins means Minestead can update faster, giving our community the latest biomes, mobs, and blocks before other servers.

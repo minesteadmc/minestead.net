@@ -44,8 +44,8 @@
           <a href="/#join">Join</a>
           <a href="/#about">About</a>
           <a href="/#rules">Rules</a>
-          <a href="/news">News</a>
           <a href="https://map.minestead.net" target="_blank" rel="noopener noreferrer">Map</a>
+          <a href="/news" class="nav-news"{% if site.posts.size > 0 %} data-latest-post="{{ site.posts.first.date | date_to_xmlschema }}"{% endif %}>News{% include news-gem.html %}</a>
         </nav>
       </div>
     </div>
@@ -60,6 +60,18 @@
     </div>
   </footer>
 
+  <script>
+    (function () {
+      var link = document.querySelector('.nav-news[data-latest-post]');
+      if (!link) return;
+      var latest = Date.parse(link.getAttribute('data-latest-post'));
+      var WEEK = 7 * 24 * 60 * 60 * 1000;
+      if (!isNaN(latest) && Date.now() - latest < WEEK) {
+        link.classList.add('has-new');
+        link.setAttribute('aria-label', 'News (new post)');
+      }
+    })();
+  </script>
   {% if page.include_ip_script %}{% include ip-script.html %}{% endif %}
   {% if page.include_gallery_script %}{% include gallery-script.html %}{% endif %}
 

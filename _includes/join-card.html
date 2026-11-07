@@ -1,0 +1,18 @@
+<div class="join-card">
+  <div class="hero-row-top">
+    <div class="server-ip-box">
+      <span class="server-ip" id="ip-text">minestead.net</span>
+      <button class="btn btn-green" id="copy-btn" onclick="copyIP()">Copy</button>
+    </div>
+    <div class="server-status" id="server-status">
+      <img src="/assets/images/offline.png" alt="" class="status-signal loading" id="status-signal" />
+      <span class="status-label loading" id="status-label"><button type="button" class="status-count" id="status-count" disabled>JAVA</button><span id="status-version"></span></span>
+    </div>
+  </div>
+  {% unless include.compact %}
+  <div class="hero-row-bottom">
+    <p class="hero-tagline">An old school survival server on hard difficulty. What will you do on Minestead?</p>
+    <img src="/assets/images/animals.png" alt="" class="hero-art" />
+  </div>
+  {% endunless %}
+</div>

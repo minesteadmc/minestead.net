@@ -6,7 +6,12 @@ layout: default
   <div class="wrapper">
     <article class="post-article">
 
-      <p class="post-back"><a href="/news">&laquo; Back to News</a></p>
+      <div class="post-topbar">
+        <p class="post-back"><a href="/news">&laquo; Back to News</a></p>
+        {% if page.short_url %}
+        <button type="button" class="btn-nav post-share" data-share-url="https://mineste.ad/{{ page.short_url }}" data-share-title="{{ page.title | escape }}">Share</button>
+        {% endif %}
+      </div>
 
       <div class="panel post-card">
         <div class="news-card-header">
@@ -24,3 +29,32 @@ layout: default
     </article>
   </div>
 </main>
+
+{% if page.short_url %}
+<script>
+  (function () {
+    var btn = document.querySelector('.post-share');
+    if (!btn) return;
+    var url = btn.dataset.shareUrl;
+    // Phones and tablets get the system share sheet; everything else copies the link
+    var useShareSheet = navigator.share && window.matchMedia('(pointer: coarse)').matches;
+
+    function copyLink() {
+      navigator.clipboard.writeText(url).then(function () {
+        btn.textContent = 'Copied!';
+        setTimeout(function () { btn.textContent = 'Share'; }, 2000);
+      });
+    }
+
+    btn.addEventListener('click', function () {
+      if (useShareSheet) {
+        navigator.share({ title: btn.dataset.shareTitle, url: url }).catch(function (err) {
+          if (err.name !== 'AbortError') copyLink();
+        });
+      } else {
+        copyLink();
+      }
+    });
+  })();
+</script>
+{% endif %}

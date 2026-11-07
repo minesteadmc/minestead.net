@@ -62,7 +62,9 @@ nav {
   flex-wrap: wrap;
 }
 
-nav a {
+/* .btn-nav: navbar button look, reused for other small buttons (e.g. post Share) */
+nav a,
+.btn-nav {
   font-family: 'Press Start 2P', monospace;
   font-size: 11px;
   color: #c8c8c8;
@@ -74,7 +76,50 @@ nav a {
   text-shadow: 1px 1px 0 #000;
 }
 
-nav a:hover {
+/* New-post indicator on the News button */
+
+.nav-news {
+  position: relative;
+}
+
+/* 9x9 pixel diamond gem (see _includes/news-gem.html), drawn at 2px per pixel */
+.nav-news-dot {
+  display: none;
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+/* Diagonal glint that sweeps across the gem one pixel at a time */
+.nav-news-glint {
+  animation: news-dot-shimmer 3s steps(9, end) infinite;
+}
+
+.nav-news.has-new .nav-news-dot {
+  display: block;
+}
+
+/* Glint crosses during the first half, then the gem rests */
+@keyframes news-dot-shimmer {
+  0%   { transform: translateX(4px); }
+  50%  { transform: translateX(13px); }
+  100% { transform: translateX(13px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-news-glint { animation: none; transform: translateX(4px); }
+}
+
+.btn-nav {
+  line-height: normal;
+  cursor: pointer;
+}
+
+nav a:hover,
+.btn-nav:hover {
   background: #4a7a4a;
   color: #fff;
   border-color: #7ec850 #2a4a2a #2a4a2a #7ec850;
@@ -108,12 +153,12 @@ nav a:hover {
 
 /* ── Hero ── */
 
-#join {
+section#join {
   padding: 32px 0 0;
 }
 
-#about,
-#rules {
+section#about,
+section#rules {
   scroll-margin-top: 16px;
 }
 
@@ -690,7 +735,8 @@ footer a:hover {
     padding-top: 4px;
   }
 
-  nav a {
+  nav a,
+  .btn-nav {
     font-size: 9px;
     padding: 7px 9px;
   }
@@ -742,8 +788,8 @@ footer a:hover {
 
 /* ── News listing ── */
 
-#news,
-#not-found {
+section#news,
+section#not-found {
   padding: 32px 0 0;
 }
 
@@ -767,6 +813,7 @@ footer a:hover {
 }
 
 .news-card-header .section-title {
+  text-transform: uppercase;
   margin-bottom: 0;
   padding-bottom: 0;
   border-bottom: none;
@@ -782,19 +829,18 @@ footer a:hover {
   flex-shrink: 0;
 }
 
+/* Spacing matches the home page: 22px after a section title and between blocks */
 .news-card-image {
-  margin-top: 14px;
   margin-bottom: 0;
 }
 
 .news-excerpt {
-  margin: 12px 0 0;
+  margin: 22px 0 0;
 }
 
+/* Same size as the home page buttons (.btn) */
 .news-read-more {
-  padding: 8px 20px;
-  font-size: 10px;
-  margin-top: 12px;
+  margin-top: 22px;
 }
 
 .news-empty {
@@ -840,10 +886,32 @@ footer a:hover {
 
 /* ── Post page ── */
 
+/* Wide enough for "Copied!" so the header doesn't shift when clicked */
+.post-share {
+  min-width: calc(7ch + 32px);
+}
+
+/* Join card reused inside posts */
+.post-body .join-card {
+  margin-bottom: 22px;
+}
+
+.post-body .join-card .hero-tagline {
+  margin-bottom: 0;
+}
+
+/* Back link on the left, Share button on the right, above the post card */
+.post-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
 .post-back {
   font-family: 'Press Start 2P', monospace;
   font-size: 11px;
-  margin-bottom: 18px;
 }
 
 .post-back a {
@@ -861,7 +929,7 @@ footer a:hover {
 }
 
 .post-card .post-body {
-  margin-top: 16px;
+  margin-top: 22px;
 }
 
 .post-header-image {
@@ -869,13 +937,13 @@ footer a:hover {
   width: 100%;
   aspect-ratio: 1048 / 400;
   object-fit: cover;
-  margin-top: 16px;
+  margin-top: 22px;
   border: 4px solid #000;
   box-shadow:
     inset 2px 2px 0 #4e4e4e,
     inset -2px -2px 0 #000,
     0 4px 16px rgba(0, 0, 0, 0.6);
-  margin-bottom: 24px;
+  margin-bottom: 0;
 }
 
 .post-body {
@@ -885,8 +953,19 @@ footer a:hover {
   text-shadow: 1px 1px 0 #000;
 }
 
+.post-body p,
+.post-body li {
+  /* Avoid leaving one or two words alone on the last line */
+  text-wrap: pretty;
+}
+
+.post-body h2,
+.post-body h3 {
+  text-wrap: balance;
+}
+
 .post-body p {
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .post-body p:last-child {
@@ -895,14 +974,16 @@ footer a:hover {
 
 .post-body h2 {
   font-family: 'Press Start 2P', monospace;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.6;
   color: #ffd700;
   text-shadow: 2px 2px 0 #7a6000, 1px 1px 0 #000;
-  margin-bottom: 16px;
-  margin-top: 28px;
-  padding-bottom: 10px;
+  margin-bottom: 22px;
+  margin-top: 40px;
+  padding-bottom: 14px;
   border-bottom: 2px solid #111;
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .post-body h3 {
@@ -917,12 +998,19 @@ footer a:hover {
 .post-body ul,
 .post-body ol {
   padding-left: 24px;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .post-body li {
-  margin-bottom: 8px;
-  line-height: 1.55;
+  margin-bottom: 6px;
+}
+
+.post-body li:last-child {
+  margin-bottom: 0;
+}
+
+.post-body > :last-child {
+  margin-bottom: 0;
 }
 
 .post-body strong {
