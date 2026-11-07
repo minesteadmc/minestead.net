@@ -814,6 +814,8 @@ section#not-found {
 
 .news-card-header .section-title {
   text-transform: uppercase;
+  line-height: 1.6;
+  text-wrap: balance;
   margin-bottom: 0;
   padding-bottom: 0;
   border-bottom: none;

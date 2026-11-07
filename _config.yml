@@ -6,7 +6,7 @@ baseurl: ""
 theme: null
 plugins:
   - jekyll-paginate
-paginate: 5
+paginate: 3
 paginate_path: /news/page:num/
 permalink: /news/:year/:month/:day/:title/
 excerpt_separator: "<!--more-->"
