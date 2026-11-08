@@ -1,0 +1,35 @@
+---
+layout: default
+title: "Vote"
+description: "Vote for Minestead on server lists to help new players find us."
+---
+
+<main>
+  <div class="wrapper">
+    <section id="vote">
+      <div class="panel">
+        <h1 class="section-title">VOTE</h1>
+        <p class="about-text">
+          Voting on server lists is one of the best ways to support the server and help new players find our community. Most sites let you vote once a day, and every vote counts.
+        </p>
+        <ul class="vote-list">
+          {% for site in site.data.vote %}
+          <li>
+            <span class="rule-num">{{ forloop.index }}.</span>
+            <span class="vote-name">{{ site.name }}</span>
+            <a class="btn btn-green vote-btn" href="{{ site.url }}" target="_blank" rel="noopener noreferrer">{{ site.action | default: "Vote" }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="vote-thanks">
+          Thanks for voting and supporting Minestead <svg class="pixel-heart" aria-hidden="true" focusable="false" viewBox="0 0 9 8" width="18" height="16" shape-rendering="crispEdges">
+            <g fill="#000"><rect x="2" y="0" width="2" height="1"/><rect x="5" y="0" width="2" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="4" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="2"/><rect x="8" y="2" width="1" height="2"/><rect x="1" y="4" width="1" height="1"/><rect x="7" y="4" width="1" height="1"/><rect x="2" y="5" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="4" y="7" width="1" height="1"/></g>
+            <g fill="#e02a2a"><rect x="2" y="1" width="2" height="1"/><rect x="5" y="1" width="2" height="1"/><rect x="1" y="2" width="7" height="2"/><rect x="2" y="4" width="5" height="1"/><rect x="3" y="5" width="3" height="1"/></g>
+            <g fill="#ff8a8a"><rect x="2" y="2" width="1" height="1"/></g>
+            <g fill="#9a1414"><rect x="7" y="3" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/></g>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>

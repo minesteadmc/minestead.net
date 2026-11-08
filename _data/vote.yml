@@ -1,0 +1,14 @@
+# Server list sites shown on /vote, in display order.
+# `action` is the button label and defaults to "Vote".
+
+- name: MinecraftServers.org
+  url: https://minecraftservers.org/server/695837
+- name: Minecraft-MP.com
+  url: https://minecraft-mp.com/server-s366540
+- name: Minecraft-Server-List.com
+  url: https://minecraft-server-list.com/server/524777/
+- name: Minecraft-ServerList.com
+  url: https://minecraft-serverlist.com/server/7088
+- name: Modrinth.com
+  url: https://modrinth.com/server/minestead
+  action: Follow
