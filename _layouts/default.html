@@ -41,9 +41,9 @@
       <div class="header-inner">
         <a class="logo" href="/"><img src="/assets/images/logo.png" alt="Minestead" class="logo-wordmark" width="1020" height="128"></a>
         <nav>
-          <a href="/#join">Join</a>
           <a href="/#rules">Rules</a>
           <a href="https://map.minestead.net" target="_blank" rel="noopener noreferrer">Map</a>
+          <a href="https://archive.minestead.net" target="_blank" rel="noopener noreferrer">Archive</a>
           <a href="/vote">Vote</a>
           <a href="/news" class="nav-news"{% if site.posts.size > 0 %} data-latest-post="{{ site.posts.first.date | date_to_xmlschema }}"{% endif %}>News{% include news-gem.html %}</a>
         </nav>
