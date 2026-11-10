@@ -735,6 +735,10 @@ footer a:hover {
     padding-top: 4px;
   }
 
+  .tagline-break {
+    display: none;
+  }
+
   nav a,
   .btn-nav {
     font-size: 9px;
@@ -777,12 +781,35 @@ footer a:hover {
     right: 12px;
   }
 
+  .modal-box-gallery {
+    width: 100%;
+  }
+
+  /* Photo takes the full width; arrows move underneath it */
   .gallery-viewer {
-    gap: 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .gallery-image {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+    max-height: calc(92vh - 180px);
+  }
+
+  #gallery-prev {
+    justify-self: start;
+  }
+
+  #gallery-next {
+    justify-self: end;
   }
 
   .gallery-nav {
-    padding: 8px 8px;
+    grid-row: 2;
+    padding: 10px 16px;
   }
 }
 
@@ -833,8 +860,18 @@ section#vote {
   min-width: 180px;
 }
 
+/* On phones the button drops under the site name, lined up with it */
 @media (max-width: 600px) {
+  .vote-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 14px;
+    row-gap: 12px;
+  }
+
   .vote-btn {
+    grid-column: 2;
+    justify-self: start;
     min-width: 120px;
   }
 }
@@ -1110,7 +1147,9 @@ section#vote {
     font-size: 10px;
   }
 
-  .post-body h2 {
-    font-size: 10px;
+  .news-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }
