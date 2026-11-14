@@ -410,6 +410,10 @@ section#rules {
   height: 24px;
   width: auto;
   flex-shrink: 0;
+  /* The icons have an empty top pixel row and Press Start 2P caps sit high in their line box,
+     so centering the boxes leaves the bars ~2px low against the text. */
+  position: relative;
+  top: -2px;
 }
 
 .status-signal.loading {
