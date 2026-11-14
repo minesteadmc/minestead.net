@@ -158,6 +158,7 @@ section#join {
 }
 
 section#about,
+section#screenshots,
 section#rules {
   scroll-margin-top: 16px;
 }
@@ -464,43 +465,105 @@ section#rules {
   color: #aaffaa;
 }
 
-.about-list {
-  padding-left: 24px;
-  font-size: 22px;
-  line-height: 1.65;
+/* ── Feature cards ── */
+
+.features-grid {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.feature-card {
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 3px solid;
+  border-color: #1a1a1a #4e4e4e #4e4e4e #1a1a1a;
+}
+
+.feature-card-wide {
+  grid-column: 1 / -1;
+}
+
+/* Icon and title share a row; the description runs full width below */
+.feature-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+/* Inventory slot holding a 16x16 item texture at 3x: a slot drawn at 3px per
+   pixel, with 1 pixel of padding around the item. Colored like the site's
+   other inset frames (gallery thumbs, cards) rather than Minecraft's light
+   gray, so it sits in the dark panel. Edges are gradient strips instead of
+   borders so the top-right and bottom-left corner pixels stay slot colored,
+   like in game (borders would meet at a 45 degree angle). */
+.feature-slot {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background:
+    linear-gradient(#111111, #111111) top left / calc(100% - 3px) 3px no-repeat,
+    linear-gradient(#111111, #111111) top left / 3px calc(100% - 3px) no-repeat,
+    linear-gradient(#5a5a5a, #5a5a5a) bottom right / calc(100% - 3px) 3px no-repeat,
+    linear-gradient(#5a5a5a, #5a5a5a) bottom right / 3px calc(100% - 3px) no-repeat,
+    #1e1e1e;
+}
+
+.feature-slot img {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+}
+
+.feature-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.6;
+  text-wrap: balance;
+  color: #7ec850;
+  text-shadow: 1px 1px 0 #1a3a00;
+}
+
+.feature-text {
+  font-size: 20px;
+  line-height: 1.45;
   color: #d0d0d0;
   text-shadow: 1px 1px 0 #000;
-  margin-bottom: 22px;
+  /* Avoid leaving one or two words alone on the last line */
+  text-wrap: pretty;
 }
 
-.about-list:last-child {
-  margin-bottom: 0;
-}
-
-.about-list li {
-  margin-bottom: 6px;
-}
-
-.about-list li:last-child {
-  margin-bottom: 0;
-}
-
-.about-list a {
+.feature-text a {
   color: #7ec850;
   text-decoration: none;
 }
 
-.about-list a:hover {
+.feature-text a:hover {
   color: #aaffaa;
+}
+
+/* Commands in Minecraft chat yellow, like the in-game help menus show them */
+.feature-text code {
+  font-family: inherit;
+  font-size: inherit;
+  color: #ffff55;
+  text-shadow: 1px 1px 0 #3f3f15;
 }
 
 /* ── Gallery ── */
 
+/* Two big columns in its own panel */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 22px;
 }
 
 .gallery-thumb {
@@ -749,6 +812,14 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 
+  .feature-card {
+    padding: 12px;
+  }
+
+  .feature-title {
+    font-size: 12px;
+  }
+
   .server-ip {
     font-size: 14px;
     padding: 12px 14px;
@@ -764,8 +835,7 @@ footer a:hover {
   }
 
   .gallery {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 8px;
+    grid-template-columns: 1fr;
   }
 
   #gallery-modal-overlay {
@@ -992,6 +1062,40 @@ section#vote {
 }
 
 /* ── Post page ── */
+
+/* Feature cards reused inside posts: undo the post's list, heading and paragraph styles */
+.post-body .features-grid {
+  padding-left: 0;
+  margin-bottom: 22px;
+}
+
+.post-body .features-grid li {
+  margin-bottom: 0;
+}
+
+.post-body .feature-title {
+  font-size: 14px;
+  margin: 0;
+}
+
+.post-body .feature-text {
+  margin-bottom: 0;
+}
+
+.post-body .feature-text code {
+  font-family: inherit;
+  font-size: inherit;
+  color: #ffff55;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  .post-body .feature-title {
+    font-size: 12px;
+  }
+}
 
 /* Wide enough for "Copied!" so the header doesn't shift when clicked */
 .post-share {

@@ -34,20 +34,17 @@ include_gallery_script: true
       <div class="panel">
         <h2 class="section-title">ABOUT</h2>
         <p class="about-text">
-          Minestead is a survival multiplayer server on hard difficulty. There aren't any pay-to-win ranks, land claims, or teleporting.
+          Minestead is a survival multiplayer server on hard difficulty. Join a town to play with others or venture into the wild to build on your own. It's vanilla at heart, with no land claims or teleporting. Here's what makes Minestead different:
         </p>
-        <p class="about-text">
-          Join a town to play with others or venture into the wild to build on your own. There's just a few tweaks to make vanilla more fun for multiplayer:
-        </p>
-        <ul class="about-list">
-          <li>Instead of teleporting, use a compass to view and share your lodestones with others using a custom GUI right in vanilla. Public lodestones show up on the <a href="https://map.minestead.net">world map</a>.</li>
-          <li>Speed up your building by choosing a painting or stripping logs in the stonecutter. You can also use it to make mini blocks for decoration and get mob heads as loot.</li>
-          <li>Make your base and farms more peaceful by using a "silence" name tag on mobs. Shulkers also drop two shells so you can spend less time end city raiding.</li>
-        </ul>
-        <p class="about-text">
-          No mods and only a few plugins means Minestead can update faster, giving our community the latest biomes, mobs, and blocks before other servers.
-        </p>
-        {% if site.data.gallery %}
+        {% include feature-cards.html %}
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    {% if site.data.gallery %}
+    <section id="screenshots">
+      <div class="panel">
+        <h2 class="section-title">SCREENSHOTS</h2>
         <div class="gallery">
           {% for shot in site.data.gallery %}
           <button type="button" class="gallery-thumb" data-index="{{ forloop.index0 }}" data-src="{{ shot.image }}" data-caption="{{ shot.caption | escape }}">
@@ -55,9 +52,9 @@ include_gallery_script: true
           </button>
           {% endfor %}
         </div>
-        {% endif %}
       </div>
     </section>
+    {% endif %}
 
     <!-- Rules -->
     <section id="rules">

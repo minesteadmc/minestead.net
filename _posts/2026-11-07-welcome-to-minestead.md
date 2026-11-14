@@ -11,17 +11,13 @@ Minestead is now open! It's survival like it used to be, on hard difficulty and 
 
 <!--more-->
 
-There aren't any pay-to-win ranks, land claims, or teleporting. Join a town to play with others or venture into the wild to build on your own.
+Join a town to play with others or venture into the wild to build on your own. It's vanilla at heart, with no land claims or teleporting.
 
-## A Few Tweaks
+## What Makes Minestead Different
 
-Minestead is vanilla at heart, with a few tweaks to make it more fun for multiplayer:
+{% include feature-cards.html wide_only=true %}
 
-- Instead of teleporting, use a compass to view and share your lodestones with others using a custom GUI right in vanilla. Public lodestones show up on the [world map](https://map.minestead.net).
-- Speed up your building by choosing a painting or stripping logs in the stonecutter. You can also use it to make mini blocks for decoration and get mob heads as loot.
-- Make your base and farms more peaceful by using a "silence" name tag on mobs. Shulkers also drop two shells so you can spend less time end city raiding.
-
-No mods and only a few plugins means Minestead can update faster, giving our community the latest biomes, mobs, and blocks before other servers.
+There's more on the [About](/#about) page, from vault resets to mob heads.
 
 ## Join
 

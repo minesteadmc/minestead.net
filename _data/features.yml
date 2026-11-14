@@ -1,0 +1,57 @@
+# Feature cards shown in the About section, in display order.
+# Icons are 16x16 Minecraft item textures in /assets/images/features/,
+# drawn pixelated at 3x. Block icons (stonecutter.png, creeper_head.png) are
+# pre-rendered at 48x48 the way the game draws blocks in an inventory slot.
+# `wide: true` makes a card span the full row.
+# `text` can contain HTML (links, <code>).
+
+- icon: compass.png
+  title: Lodestone Waypoints
+  wide: true
+  text: >-
+    Instead of teleporting, shift right click with a compass to manage, share, or search for lodestones. Public
+    lodestones show up on the <a href="https://map.minestead.net" target="_blank" rel="noopener noreferrer">world map</a>.
+
+- icon: filled_map.png
+  title: Minestead Archive
+  wide: true
+  text: >-
+    Every week, a snapshot of the world map is saved to the <a href="https://archive.minestead.net" target="_blank" rel="noopener noreferrer">Minestead Archive</a>.
+    Look back at how towns and builds looked on any date.
+
+- icon: no_emerald.png
+  title: Nothing to Buy
+  wide: true
+  text: >-
+    No paid ranks, perks, or even a way to donate. In game, there's no currency either: Trade with diamonds, swap
+    items with other players, or just help out and share.
+
+- icon: trial_key.png
+  title: Vaults Reset
+  text: >-
+    Vaults reset daily, and ominous vaults every three days. Keep the fight going!
+
+- icon: stonecutter.png
+  title: More Recipes
+  text: >-
+    Strip logs, pick paintings, or cut mini blocks in the stonecutter.
+
+- icon: creeper_head.png
+  title: Mob Heads
+  text: >-
+    Mobs sometimes drop their heads, and players drop theirs in PVP.
+
+- icon: name_tag.png
+  title: Silence Mobs
+  text: >-
+    Use a "silence" name tag to quiet noisy mobs around your base.
+
+- icon: shulker_shell.png
+  title: Better Loot
+  text: >-
+    Shulkers always drop two shells, enough for a whole shulker box.
+
+- icon: writable_book.png
+  title: Built-In Help
+  text: >-
+    Type <code>/help</code> for guides and tickets in vanilla menus, not tricky commands.

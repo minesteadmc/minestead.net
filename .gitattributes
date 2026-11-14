@@ -1,0 +1,2 @@
+# Keep LF line endings everywhere, even when Git runs on Windows with autocrlf on
+* text=auto eol=lf

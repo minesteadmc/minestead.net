@@ -1,0 +1,13 @@
+{% comment %} Feature cards from _data/features.yml. Pass wide_only=true to show only the full-width (headline) cards. {% endcomment %}
+<ul class="features-grid">
+  {% for feature in site.data.features %}
+  {% if include.wide_only and feature.wide != true %}{% continue %}{% endif %}
+  <li class="feature-card{% if feature.wide %} feature-card-wide{% endif %}">
+    <div class="feature-head">
+      <span class="feature-slot"><img src="/assets/images/features/{{ feature.icon }}" alt="" width="16" height="16" /></span>
+      <h3 class="feature-title">{{ feature.title }}</h3>
+    </div>
+    <p class="feature-text">{{ feature.text }}</p>
+  </li>
+  {% endfor %}
+</ul>
