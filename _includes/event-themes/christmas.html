@@ -1,0 +1,62 @@
+{% comment %}
+  Christmas theme. Called twice by event-panel.html:
+  part="effects" goes behind the panel's content, part="art" sits beside the text.
+  Colours, the background and the snowfall live under .event-theme-christmas in style.css.
+{% endcomment %}
+{% if include.part == 'effects' %}
+<div class="event-snowfall" aria-hidden="true"></div>
+<script>
+  // Holiday lights hanging from the title divider: one small pixel bulb every 44px in Minecraft
+  // dye colours, each twinkling on its own timing. Rebuilt when the panel width changes.
+  document.addEventListener('DOMContentLoaded', function () {
+    var colours = ['#ff5555', '#ffaa00', '#55ff55', '#55ffff'];
+    document.querySelectorAll('.event-theme-christmas .event-title').forEach(function (title) {
+      var strand = document.createElement('span');
+      strand.className = 'xmas-lights';
+      strand.setAttribute('aria-hidden', 'true');
+      title.appendChild(strand);
+      var built = 0;
+      function build() {
+        var width = title.clientWidth;
+        if (!width || width === built) return;
+        built = width;
+        strand.textContent = '';
+        // Fit as many bulbs as the width allows, then center the strand so both ends match
+        var gap = 44, bulbWidth = 4;
+        var count = Math.floor((width - bulbWidth) / gap) + 1;
+        var start = Math.round((width - (count - 1) * gap - bulbWidth) / 2);
+        for (var i = 0, x = start; i < count; i++, x += gap) {
+          var bulb = document.createElement('span');
+          bulb.className = 'xmas-bulb';
+          bulb.style.left = x + 'px';
+          bulb.style.top = (i % 2 ? 3 : 0) + 'px';
+          bulb.style.setProperty('--bulb', colours[i % colours.length]);
+          bulb.style.animationDelay = (-Math.random() * 6).toFixed(2) + 's';
+          bulb.style.animationDuration = (4 + Math.random() * 3).toFixed(2) + 's';
+          strand.appendChild(bulb);
+        }
+      }
+      build();
+      window.addEventListener('resize', build);
+    });
+  });
+</script>
+{% elsif include.part == 'art' %}
+{% comment %}
+  Easter egg: click the snow golem to shear off its pumpkin (and again to put it back).
+  Both renders are the same scene framed identically (same size and crop), so only the head changes.
+{% endcomment %}
+<button type="button" class="event-art xmas-golem" aria-pressed="false" aria-label="Shear the snow golem">
+  <img src="/assets/images/events/christmas/golem_scene.png" alt="" class="xmas-golem-pumpkin" width="238" height="232" />
+  <img src="/assets/images/events/christmas/golem_scene_sheared.png" alt="" class="xmas-golem-sheared" width="238" height="232" />
+</button>
+<script>
+  document.querySelectorAll('.xmas-golem').forEach(function (golem) {
+    golem.addEventListener('click', function () {
+      var sheared = golem.getAttribute('aria-pressed') !== 'true';
+      golem.setAttribute('aria-pressed', String(sheared));
+      golem.setAttribute('aria-label', sheared ? 'Put the pumpkin back on the snow golem' : 'Shear the snow golem');
+    });
+  });
+</script>
+{% endif %}

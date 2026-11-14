@@ -442,6 +442,434 @@ section#rules {
   text-shadow: 1px 1px 0 #000;
 }
 
+/* ── Events ── */
+
+/* Shared event panel (_includes/event-panel.html). A theme sets these variables and
+   anything else of its own under .event-theme-<name>; without a theme an event uses the
+   plain site look. */
+.event {
+  --event-bg: rgba(58, 58, 58, 0.95);
+  --event-accent: #ffd700;
+  --event-accent-shadow: #7a6000;
+  --event-soft: #d0d0d0;
+  --event-muted: #aaa;
+  --event-divider: #111;
+  --event-edge-light: #4e4e4e;
+  --event-edge-dark: #000;
+  --event-box: #050505;
+  --event-glow: transparent;
+  scroll-margin-top: 16px;
+}
+
+.event[hidden] {
+  display: none;
+}
+
+.event-panel {
+  position: relative;
+  overflow: hidden;
+  background: var(--event-bg);
+  box-shadow:
+    inset 2px 2px 0 var(--event-edge-light),
+    inset -2px -2px 0 var(--event-edge-dark),
+    0 0 24px var(--event-glow),
+    0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.event-panel > :not(.event-particles):not(.event-snowfall) {
+  position: relative;
+}
+
+.event-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.event-particle {
+  position: absolute;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  opacity: 0;
+  animation-name: event-float;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Falling particles (e.g. snow) for themes that set data-motion="fall" */
+.event-particle-fall {
+  animation-name: event-fall;
+}
+
+@keyframes event-fall {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  15%  { opacity: 0.7; }
+  85%  { opacity: 0.7; }
+  100% { transform: translate(-12px, 120px); opacity: 0; }
+}
+
+@keyframes event-float {
+  0%   { transform: translateY(0); opacity: 0; }
+  15%  { opacity: 0.7; }
+  80%  { opacity: 0.7; }
+  100% { transform: translateY(-90px); opacity: 0; }
+}
+
+.event-title {
+  color: var(--event-accent);
+  text-shadow: 2px 2px 0 var(--event-accent-shadow), 1px 1px 0 #000;
+  border-bottom-color: var(--event-divider);
+}
+
+.event-body {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.event-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Default art placement; themes override size and position */
+.event-art {
+  flex-shrink: 0;
+  width: 200px;
+  height: auto;
+}
+
+.event-when {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  text-wrap: balance;
+}
+
+.event-local {
+  display: block;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: var(--event-soft);
+}
+
+.event-text {
+  font-size: 22px;
+  line-height: 1.65;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  margin: 12px 0 0;
+  text-wrap: pretty;
+}
+
+/* Prizes sit a step below the call to action */
+.event-prizes {
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--event-soft);
+  text-shadow: 1px 1px 0 #000;
+  margin-top: 8px;
+  text-wrap: pretty;
+}
+
+/* Countdown spans the whole panel, centered under the art and text */
+.event-countdown {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-width: 420px;
+  margin: 24px auto 0;
+}
+
+.event-countdown[hidden] {
+  display: none;
+}
+
+.event-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 4px 8px;
+  background: var(--event-box);
+  border: 3px solid;
+  border-color: var(--event-edge-dark) var(--event-edge-light) var(--event-edge-light) var(--event-edge-dark);
+}
+
+.event-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: var(--event-accent);
+  text-shadow: 2px 2px 0 var(--event-accent-shadow);
+  font-variant-numeric: tabular-nums;
+}
+
+.event-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--event-muted);
+  letter-spacing: 1px;
+}
+
+/* Live state: one wide box in the countdown's place and style */
+.event-live {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 420px;
+  margin: 24px auto 0;
+  padding: 18px 12px 12px;
+  background: var(--event-box);
+  border: 3px solid;
+  border-color: var(--event-edge-dark) var(--event-edge-light) var(--event-edge-light) var(--event-edge-dark);
+  text-align: center;
+}
+
+.event-live[hidden] {
+  display: none;
+}
+
+.event-live-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--event-accent);
+  text-shadow: 2px 2px 0 var(--event-accent-shadow);
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .event-body {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .event-art {
+    margin: 0 auto;
+  }
+
+  .event-when,
+  .event-text,
+  .event-prizes {
+    text-align: center;
+  }
+
+  .event-num {
+    font-size: 14px;
+  }
+
+  /* MINUTES and SECONDS are too wide for the phone-width boxes at 10px */
+  .event-label {
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+
+  .event-live-title {
+    font-size: 14px;
+  }
+}
+
+/* ── Event theme: dragon (The End) ── */
+
+/* End sky texture from the game, tinted dark like the game draws it, with Minecraft's
+   light purple chat colour and its shadow */
+.event-theme-dragon {
+  --event-bg: #120a1a url('/assets/images/events/dragon/end_sky.png') 0 0 / 256px 256px repeat;
+  --event-accent: #ff55ff;
+  --event-accent-shadow: #3f153f;
+  --event-soft: #d8b4f0;
+  --event-muted: #b48acb;
+  --event-divider: #4a2860;
+  --event-edge-light: #6b3a8c;
+  --event-edge-dark: #0b0410;
+  --event-box: rgba(5, 2, 8, 0.85);
+  --event-glow: rgba(170, 60, 230, 0.35);
+}
+
+.event-theme-dragon .event-panel {
+  image-rendering: pixelated;
+}
+
+/* The dragon swoops in from the top right, breaking past the panel's edges
+   (the panel crops it). Its head points down-left toward the text. */
+.event-theme-dragon .event-art {
+  width: 300px;
+  margin: -78px -64px -10px -24px;
+  image-rendering: auto;
+  filter: drop-shadow(0 0 16px rgba(200, 80, 255, 0.5));
+  animation: event-hover 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes event-hover {
+  from { transform: translateY(0) rotate(0deg); }
+  to   { transform: translateY(-8px) rotate(-1.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-theme-dragon .event-art { animation: none; }
+}
+
+@media (max-width: 600px) {
+  .event-theme-dragon .event-art {
+    width: 260px;
+    margin: -8px auto 0;
+  }
+}
+
+/* ── Event theme: christmas ── */
+
+/* A snowy night: a sparse field of pixel stars over a sky that fades from deep navy to a
+   lighter horizon, white text on a deep red shadow, and icy blue edges */
+.event-theme-christmas {
+  --event-bg:
+    url('/assets/images/events/christmas/stars.png') 0 0 / 256px 256px repeat,
+    linear-gradient(to bottom, #060b17 0%, #08112a 45%, #0c1830 75%, #18304f 100%);
+  --event-accent: #ffffff;
+  --event-accent-shadow: #8b1e1e;
+  --event-soft: #e3eef9;
+  --event-muted: #a9c4de;
+  --event-divider: #23405e;
+  --event-edge-light: #4f7fae;
+  --event-edge-dark: #050b14;
+  --event-box: rgba(3, 8, 15, 0.85);
+  --event-glow: rgba(120, 180, 255, 0.25);
+}
+
+.event-theme-christmas .event-panel {
+  image-rendering: pixelated;
+}
+
+.event-snowfall {
+  position: absolute;
+}
+
+/* Holiday lights along the title divider (built by the theme's script). Each bulb is a
+   small 4x6 pixel block with a dark cap and a faint glow, gently dimming now and then. */
+.event-theme-christmas .event-title {
+  position: relative;
+}
+
+.xmas-lights {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 2px);
+  height: 14px;
+  pointer-events: none;
+}
+
+.xmas-bulb {
+  position: absolute;
+  width: 4px;
+  height: 6px;
+  margin-top: 2px;
+  background: var(--bulb);
+  opacity: 0.8;
+  box-shadow: 0 0 4px var(--bulb);
+  animation: xmas-twinkle 5s steps(1, end) infinite;
+}
+
+/* The cap and the bit of wire it hangs from */
+.xmas-bulb::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 4px;
+  height: 2px;
+  background: #1c2a3a;
+  box-shadow: none;
+}
+
+@keyframes xmas-twinkle {
+  0%, 100% { opacity: 0.8; }
+  80% { opacity: 0.45; box-shadow: none; }
+  88% { opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xmas-bulb { animation: none; }
+}
+
+/* The game's weather snow texture scrolling down: one light layer at 4x, so the flakes
+   are big and far apart. It moves one full tile per loop, so the repeat is seamless. */
+.event-snowfall {
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  background: url('/assets/images/events/christmas/snowfall.png') 0 0 / 256px 1024px repeat;
+  image-rendering: pixelated;
+  animation: event-snowfall 24s linear infinite;
+  /* Only snow around the golem on the right, like the dragon's particles; fades out
+     before it reaches the text */
+  -webkit-mask-image: linear-gradient(to right, transparent 50%, #000 75%);
+  mask-image: linear-gradient(to right, transparent 50%, #000 75%);
+}
+
+@keyframes event-snowfall {
+  from { background-position: 0 0; }
+  to   { background-position: 0 1024px; }
+}
+
+/* Snow golem and present standing in a snow drift, rendered together as one scene. It
+   rises into the title row and tucks against the right edge so the text keeps its width */
+.event-theme-christmas .event-art {
+  width: 238px;
+  margin: -66px -16px -24px -60px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 14px rgba(180, 220, 255, 0.3));
+}
+
+/* The golem is a button: click to shear its pumpkin off (aria-pressed), click to put it back */
+.xmas-golem {
+  position: relative;
+  display: block;
+  height: 232px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.xmas-golem img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.xmas-golem-sheared,
+.xmas-golem[aria-pressed="true"] .xmas-golem-pumpkin {
+  visibility: hidden;
+}
+
+.xmas-golem[aria-pressed="true"] .xmas-golem-sheared {
+  visibility: visible;
+}
+
+.xmas-golem:focus-visible {
+  outline: 2px dashed var(--event-edge-light);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-snowfall { animation: none; }
+}
+
+@media (max-width: 600px) {
+  .event-theme-christmas .event-art {
+    margin: 0 auto;
+  }
+
+  /* Stacked on phones, the golem is on top: snow over the top of the panel instead */
+  .event-snowfall {
+    -webkit-mask-image: linear-gradient(to bottom, #000 25%, transparent 50%);
+    mask-image: linear-gradient(to bottom, #000 25%, transparent 50%);
+  }
+}
+
 /* ── About ── */
 
 .about-text {

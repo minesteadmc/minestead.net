@@ -1,0 +1,12 @@
+{% comment %}
+  Ender Dragon theme. Called twice by event-panel.html:
+  part="effects" goes behind the panel's content, part="art" sits beside the text.
+  Colours and the background live under .event-theme-dragon in style.css.
+{% endcomment %}
+{% if include.part == 'effects' %}
+<div class="event-particles" aria-hidden="true"
+  data-sprites="{% for i in (2..7) %}/assets/images/events/dragon/portal_{{ i }}.png{% unless forloop.last %},{% endunless %}{% endfor %}"
+  data-count="10" data-left="62-98"></div>
+{% elsif include.part == 'art' %}
+<img src="/assets/images/events/dragon/ender_dragon.png" alt="The Ender Dragon" class="event-art" width="919" height="559" />
+{% endif %}

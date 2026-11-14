@@ -1,0 +1,40 @@
+# Events shown in a panel on the home page, under Join. Only one shows at a time: the
+# earliest one that hasn't ended yet. When it ends, the next one takes its place.
+#
+#   theme:      look of the panel; matches _includes/event-themes/<theme>.html and the
+#               .event-theme-<theme> styles in style.css. Leave out for the plain site look.
+#   start, end: ISO times with the UTC offset (Central is -06:00 in winter, -05:00 in summer).
+#               Before start the panel counts down; until end it shows the `live` box;
+#               after end it hides (and is left out entirely on the next site build).
+#   when:       the date line, written out the way you want it read.
+#   text:       the call to action, one line.
+#   prizes:     optional second line.
+#   live, live_note: shown in place of the countdown while the event is happening.
+#   draft:      true keeps an event off the live site. On the dev site it's hidden too, unless
+#               you add ?drafts to the address (then it always shows), for designing a card.
+
+- theme: dragon
+  title: Help Defeat the Dragon!
+  start: "2026-11-21T19:30:00-06:00"
+  end: "2026-11-21T21:30:00-06:00"
+  when: Saturday, November 21 at 7:30 PM CST
+  text: >-
+    Join today to gear up for the first ever dragon fight!
+  prizes: >-
+    Land the final hit to win the dragon egg. Everyone who joins the fight will get a limited edition event trophy.
+  live: The fight is on!
+  live_note: Join now at minestead.net
+
+# Placeholder details: replace them and remove `draft` when the event is announced.
+- theme: christmas
+  draft: true
+  title: Christmas on Minestead!
+  start: "2026-12-19T19:30:00-06:00"
+  end: "2026-12-19T21:30:00-06:00"
+  when: Saturday, December 19 at 7:30 PM CST
+  text: >-
+    Join us at spawn for a holiday party with the whole server!
+  prizes: >-
+    Everyone who stops by will get a limited edition holiday present.
+  live: The party is on!
+  live_note: Join now at minestead.net
