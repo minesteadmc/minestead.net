@@ -480,14 +480,22 @@ section#rules {
   position: relative;
 }
 
+/* Particles sit at a random spot (--x, --y set by the script) inside the zone; themes can
+   override the zone, e.g. inline styles from data-left on desktop, their own on phones */
 .event-particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  --zone-x0: 0%;
+  --zone-w: 100%;
+  --zone-y0: 20%;
+  --zone-h: 80%;
 }
 
 .event-particle {
   position: absolute;
+  left: calc(var(--zone-x0) + var(--x, 0.5) * var(--zone-w));
+  top: calc(var(--zone-y0) + var(--y, 0.5) * var(--zone-h));
   background-size: 100% 100%;
   image-rendering: pixelated;
   opacity: 0;
@@ -716,6 +724,15 @@ section#rules {
   .event-theme-dragon .event-art {
     width: 260px;
     margin: -8px auto 0;
+  }
+
+  /* On phones the dragon sits centered under the title, so the particles move there too
+     (!important beats the desktop zone the script sets inline from data-left) */
+  .event-theme-dragon .event-particles {
+    --zone-x0: 8% !important;
+    --zone-w: 84% !important;
+    --zone-y0: 70px !important;
+    --zone-h: 190px !important;
   }
 }
 

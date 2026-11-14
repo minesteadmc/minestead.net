@@ -2,7 +2,7 @@
   Event panel, driven by _data/events.yml. Every event that hasn't ended at build time is
   rendered; the script shows the earliest one that hasn't ended yet and hides the rest.
   Draft events (draft: true) are only built in development, and only shown off minestead.net
-  when the URL has ?drafts (then always visible), so a card can be designed before it's announced.
+  when the URL has ?draft (then always visible), so a card can be designed before it's announced.
   On the dev site, ?live shows every visible event in its live ("happening now") state.
   Each event's look comes from its theme: _includes/event-themes/<theme>.html (art and
   effects) and the .event-theme-<theme> styles.
@@ -61,12 +61,12 @@
     if (!sections.length) return;
     // Previews, dev site only (never on minestead.net), so the dev site otherwise looks
     // exactly like the live one:
-    //   ?drafts  also shows draft events
+    //   ?draft   also shows draft events
     //   ?live    shows every visible event as if it had started (the "happening now" box)
-    //   combine them with ?drafts&live
+    //   combine them with ?draft&live
     var devHost = !/(^|\.)minestead\.net$/.test(location.hostname);
-    var showDrafts = devHost && /[?&]drafts\b/.test(location.search);
-    var forceLive = devHost && /[?&](drafts=)?live\b/.test(location.search);
+    var showDrafts = devHost && /[?&]draft\b/.test(location.search);
+    var forceLive = devHost && /[?&](draft=)?live\b/.test(location.search);
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var tz = '';
     try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) {}
@@ -97,20 +97,25 @@
         local.hidden = false;
       }
 
-      // Theme particles: sprites drifting up, placed within data-left (a percent range)
+      // Theme particles: sprites drifting through the panel. Each gets a random spot (--x, --y
+      // from 0 to 1) inside a zone the CSS sets with --zone-x0/-w/-y0/-h, so a theme can move
+      // the zone per layout (e.g. on phones). data-left sets the default horizontal range.
       var field = section.querySelector('.event-particles');
       if (field && !reduceMotion) {
         var sprites = (field.getAttribute('data-sprites') || '').split(',').filter(Boolean);
         var count = parseInt(field.getAttribute('data-count'), 10) || 10;
         var range = (field.getAttribute('data-left') || '0-100').split('-').map(Number);
+        field.style.setProperty('--zone-x0', range[0] + '%');
+        field.style.setProperty('--zone-w', (range[1] - range[0]) + '%');
         var falling = field.getAttribute('data-motion') === 'fall';
         for (var i = 0; i < count && sprites.length; i++) {
           var p = document.createElement('span');
           var size = 8 * (2 + Math.floor(Math.random() * 3)); // an 8px sprite at 2x, 3x or 4x
           p.className = 'event-particle' + (falling ? ' event-particle-fall' : '');
           p.style.backgroundImage = 'url(' + sprites[Math.floor(Math.random() * sprites.length)] + ')';
-          p.style.left = (range[0] + Math.random() * (range[1] - range[0])) + '%';
-          p.style.top = (falling ? Math.random() * 60 : 20 + Math.random() * 80) + '%';
+          p.style.setProperty('--x', Math.random().toFixed(3));
+          p.style.setProperty('--y', Math.random().toFixed(3));
+          if (falling) { field.style.setProperty('--zone-y0', '0%'); field.style.setProperty('--zone-h', '60%'); }
           p.style.width = p.style.height = size + 'px';
           p.style.filter = 'brightness(' + (0.4 + Math.random() * 0.4).toFixed(2) + ')';
           p.style.animationDuration = (3 + Math.random() * 4).toFixed(2) + 's';

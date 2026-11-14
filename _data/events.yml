@@ -11,8 +11,8 @@
 #   prizes:     optional second line.
 #   live, live_note: shown in place of the countdown while the event is happening.
 #   draft:      true keeps an event off the live site. On the dev site it's hidden too, unless
-#               you add ?drafts to the address (then it always shows), for designing a card.
-#   Dev site previews: ?live shows events as if they had started; ?drafts&live does both.
+#               you add ?draft to the address (then it always shows), for designing a card.
+#   Dev site previews: ?live shows events as if they had started; ?draft&live does both.
 
 - theme: dragon
   title: Help Defeat the Dragon!
