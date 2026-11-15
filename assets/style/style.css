@@ -999,7 +999,8 @@ section#rules {
 }
 
 /* Commands in Minecraft chat yellow, like the in-game help menus show them */
-.feature-text code {
+.feature-text code,
+.about-text code {
   font-family: inherit;
   font-size: inherit;
   color: #ffff55;
@@ -1336,6 +1337,7 @@ footer a:hover {
 
 section#news,
 section#not-found,
+section#recipes,
 section#vote {
   padding: 32px 0 0;
 }
@@ -1705,4 +1707,322 @@ section#vote {
     align-items: flex-start;
     gap: 12px;
   }
+}
+
+/* ── Recipes ── */
+
+.recipe-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+/* Same inset card as the feature cards */
+.recipe-card {
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 3px solid;
+  border-color: #1a1a1a #4e4e4e #4e4e4e #1a1a1a;
+  display: grid;
+  gap: 14px;
+}
+
+/* The game's crafting table and stonecutter screens, at --px per GUI pixel
+   (3px, like the game at GUI scale 3; 2px on phones). Colors are the game's
+   own: #c6c6c6 panel, #8b8b8b slots with a #373737 top-left edge and a white
+   bottom-right edge, and a window frame with a black outline, a white
+   top-left bevel and a #555555 bottom-right one. */
+.gui {
+  --px: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--px) * 6);
+  justify-self: start;
+  padding: calc(var(--px) * 6);
+  background: #c6c6c6;
+  border: calc(var(--px) * 2) solid;
+  border-color: #fff #555 #555 #fff;
+  box-shadow: 0 0 0 var(--px) #000;
+  margin: var(--px);
+}
+
+.gui-grid {
+  display: grid;
+  grid-template-columns: repeat(3, calc(var(--px) * 18));
+}
+
+/* Edges are gradient strips so the top-right and bottom-left corner pixels
+   stay slot colored, like in game (borders would meet at a 45 degree angle). */
+.gui-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--px) * 18);
+  height: calc(var(--px) * 18);
+  background:
+    linear-gradient(#373737, #373737) top left / calc(100% - var(--px)) var(--px) no-repeat,
+    linear-gradient(#373737, #373737) top left / var(--px) calc(100% - var(--px)) no-repeat,
+    linear-gradient(#fff, #fff) bottom right / calc(100% - var(--px)) var(--px) no-repeat,
+    linear-gradient(#fff, #fff) bottom right / var(--px) calc(100% - var(--px)) no-repeat,
+    #8b8b8b;
+}
+
+/* The result slot is the big one, like in game */
+.gui-slot-output {
+  width: calc(var(--px) * 26);
+  height: calc(var(--px) * 26);
+}
+
+.gui img {
+  display: block;
+  width: calc(var(--px) * 16);
+  height: calc(var(--px) * 16);
+  image-rendering: pixelated;
+}
+
+.gui img.gui-arrow {
+  width: calc(var(--px) * 22);
+  height: calc(var(--px) * 15);
+}
+
+/* Cycling recipes show one variant per slot at a time (see cycle-script.html) */
+.gui img[hidden] {
+  display: none;
+}
+
+/* Stonecutter: the picked recipe's button above the arrow */
+.gui-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--px) * 4);
+}
+
+.gui-button {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--px);
+  width: calc(var(--px) * 16);
+  height: calc(var(--px) * 18);
+  background: url('/assets/images/recipes/gui_recipe.png') 0 0 / 100% 100%;
+  image-rendering: pixelated;
+}
+
+/* Stack size, bottom right, in white with the game's dark gray shadow */
+.gui-count {
+  position: absolute;
+  right: calc(var(--px) * 2);
+  bottom: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  font-size: calc(var(--px) * 10);
+  line-height: 1;
+  color: #fff;
+  text-shadow: var(--px) var(--px) 0 #3f3f3f;
+}
+
+/* Enchantment glint: a purple sheen that slides across the item, masked to its shape */
+.gui-glint {
+  position: relative;
+  display: block;
+}
+
+.gui-glint::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(168, 112, 255, 0.55) 45%, rgba(214, 180, 255, 0.7) 50%, rgba(168, 112, 255, 0.55) 55%, transparent 70%) 0 0 / 300% 100%;
+  -webkit-mask: var(--glint-mask) center / contain no-repeat;
+  mask: var(--glint-mask) center / contain no-repeat;
+  mix-blend-mode: screen;
+  animation: gui-glint 3s linear infinite;
+}
+
+@keyframes gui-glint {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gui-glint::after { animation: none; background-position: 50% 0; }
+}
+
+/* Pixel-font toggle for long lists (the paintings) */
+.recipe-details summary {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #7ec850;
+  text-shadow: 1px 1px 0 #1a3a00;
+  cursor: pointer;
+  line-height: 1.8;
+}
+
+.recipe-details summary:hover {
+  color: #aaffaa;
+}
+
+/* A pixel arrow instead of the browser's triangle: 3x5 pixels at 2px each,
+   in the text color (a mask, so it follows the hover color), turning down when open */
+.recipe-details summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recipe-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.recipe-details summary::before {
+  content: "";
+  flex-shrink: 0;
+  width: 6px;
+  height: 10px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 5' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1H2v1H1v1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 5' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1H2v1H1v1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+  filter: drop-shadow(1px 1px 0 #1a3a00);
+}
+
+.recipe-details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* Every block a recipe takes, in a row that wraps */
+.block-row {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.block-row img {
+  display: block;
+  width: 48px;
+  height: 48px;
+}
+
+/* Paintings grouped by size, one row per size (sorted in _data/recipes.yml),
+   each labeled with its size like the game's painting tooltip */
+.painting-groups {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.painting-group {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: start;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #1e1e1e;
+}
+
+.painting-group:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.painting-size {
+  font-size: 22px;
+  line-height: 1;
+  color: #aaaaaa;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Painting textures at 2px per pixel (32px per block) */
+.painting-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.painting-list img {
+  display: block;
+  image-rendering: pixelated;
+  box-shadow: 0 0 0 2px #111;
+}
+
+@media (max-width: 600px) {
+  .gui {
+    --px: 2px;
+  }
+
+  /* 48px block renders shrink smoothly instead of dropping pixels */
+  .gui img.gui-block {
+    image-rendering: auto;
+  }
+
+  .block-row img {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Paintings at 1px per texture pixel (16px per block) so big ones share a row */
+  .painting-list img {
+    zoom: 0.5;
+  }
+
+  .painting-list {
+    gap: 6px;
+  }
+}
+
+/* ── Item tooltips (see _includes/tooltip-script.html) ── */
+
+/* Vanilla's tooltip at 3px per GUI pixel: a near-black purple box whose
+   background pokes out one pixel past each edge (but not the corners), with a
+   purple border inside fading from top to bottom. */
+.mc-tooltip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  max-width: min(360px, calc(100vw - 8px));
+  padding: 3px 6px 4px;
+  background: rgba(16, 0, 16, 0.94);
+  border: 3px solid;
+  border-image: linear-gradient(rgba(80, 0, 255, 0.31), rgba(40, 0, 127, 0.31)) 1;
+  box-shadow:
+    0 -3px 0 0 rgba(16, 0, 16, 0.94),
+    0 3px 0 0 rgba(16, 0, 16, 0.94),
+    -3px 0 0 0 rgba(16, 0, 16, 0.94),
+    3px 0 0 0 rgba(16, 0, 16, 0.94);
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.mc-tooltip[hidden] {
+  display: none;
+}
+
+/* The item name sits a little apart from the lines under it */
+.mc-name {
+  margin-bottom: 4px;
+}
+
+/* Minecraft's chat colors, each with its shadow at a quarter brightness */
+.mc-c-f { color: #ffffff; text-shadow: 2px 2px 0 #3f3f3f; }
+.mc-c-7 { color: #aaaaaa; text-shadow: 2px 2px 0 #2a2a2a; }
+.mc-c-8 { color: #555555; text-shadow: 2px 2px 0 #151515; }
+.mc-c-9 { color: #5555ff; text-shadow: 2px 2px 0 #15153f; }
+.mc-c-b { color: #55ffff; text-shadow: 2px 2px 0 #153f3f; }
+.mc-c-d { color: #ff55ff; text-shadow: 2px 2px 0 #3f153f; }
+.mc-c-e { color: #ffff55; text-shadow: 2px 2px 0 #3f3f15; }
+
+/* Items with a tooltip show it on hover, so no drag ghost */
+img[data-tooltip] {
+  -webkit-user-drag: none;
 }

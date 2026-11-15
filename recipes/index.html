@@ -1,0 +1,132 @@
+---
+layout: default
+title: "Recipes"
+include_tooltip_script: true
+include_cycle_script: true
+description: "Every recipe Minestead adds to vanilla Minecraft: invisible item frames, mini blocks, painting picker, and wood stripping in the stonecutter."
+---
+{% comment %}
+  Recipes from the MinesteadTweaks plugin, drawn like the game's crafting table and
+  stonecutter screens. Icons are in /assets/images/recipes/: 16x16 item textures,
+  48x48 block renders from minecraft-renderer (blocks/), and gui_*.png from the game's GUI
+  textures. Painting variants, wood stripper blocks and the mini block sample are in _data/recipes.yml.
+  data-tooltip is the item's name as the game shows it; a leading Minecraft color
+  code sets its color (§e yellow for uncommon items). See tooltip-script.html.
+{% endcomment %}
+{% capture arrow %}<img class="gui-arrow" src="/assets/images/recipes/gui_arrow.png" alt="" width="22" height="15" />{% endcapture %}
+{% assign frame_ingredients = "item_frame,item_frame,item_frame,item_frame,lingering_invisibility,item_frame,item_frame,item_frame,item_frame" | split: "," %}
+{% assign glow_ingredients = "glow_item_frame,glow_item_frame,glow_item_frame,glow_item_frame,lingering_invisibility,glow_item_frame,glow_item_frame,glow_item_frame,glow_item_frame" | split: "," %}
+
+<main>
+  <div class="wrapper">
+    <section id="recipes">
+      <div class="panel">
+        <h1 class="section-title">RECIPES</h1>
+        <p class="about-text">
+          Minestead adds some vanilla recipe tweaks in the crafting table and stonecutter to make building more enjoyable. Submit ideas in game using <code>/help</code>!
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2 class="section-title">CRAFTING</h2>
+        <ul class="recipe-list">
+          <li class="recipe-card">
+            <h3 class="feature-title">Invisible Item Frames</h3>
+            <div class="gui gui-crafting" role="img" aria-label="8 item frames around a lingering potion of invisibility make 8 invisible item frames">
+              <div class="gui-grid">
+                {% for item in frame_ingredients %}<span class="gui-slot"><img src="/assets/images/recipes/{{ item }}.png" alt="" width="16" height="16" data-tooltip="{% if item == 'lingering_invisibility' %}Lingering Potion of Invisibility{% else %}Item Frame{% endif %}" /></span>{% endfor %}
+              </div>
+              {{ arrow }}
+              <span class="gui-slot gui-slot-output"><span class="gui-glint" style="--glint-mask: url(/assets/images/recipes/item_frame.png)"><img src="/assets/images/recipes/item_frame.png" alt="" width="16" height="16" data-tooltip="Invisible Item Frame" /></span><span class="gui-count">8</span></span>
+            </div>
+            <p class="feature-text">
+              Empty frames are visible so you don't lose them, but disappear once you add an item.
+            </p>
+          </li>
+          <li class="recipe-card">
+            <h3 class="feature-title">Invisible Glow Item Frames</h3>
+            <div class="gui gui-crafting" role="img" aria-label="8 glow item frames around a lingering potion of invisibility make 8 invisible glow item frames">
+              <div class="gui-grid">
+                {% for item in glow_ingredients %}<span class="gui-slot"><img src="/assets/images/recipes/{{ item }}.png" alt="" width="16" height="16" data-tooltip="{% if item == 'lingering_invisibility' %}Lingering Potion of Invisibility{% else %}Glow Item Frame{% endif %}" /></span>{% endfor %}
+              </div>
+              {{ arrow }}
+              <span class="gui-slot gui-slot-output"><span class="gui-glint" style="--glint-mask: url(/assets/images/recipes/glow_item_frame.png)"><img src="/assets/images/recipes/glow_item_frame.png" alt="" width="16" height="16" data-tooltip="Invisible Glow Item Frame" /></span><span class="gui-count">8</span></span>
+            </div>
+            <p class="feature-text">
+              Items look brighter, helpful in dark areas.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2 class="section-title">STONECUTTER</h2>
+        <ul class="recipe-list">
+          <li class="recipe-card">
+            <h3 class="feature-title">Wood Stripper</h3>
+            {% assign woods = site.data.recipes.wood_stripper %}
+            <div class="gui gui-stonecutter" data-cycle role="img" aria-label="Any log, wood, stem or bamboo block in the stonecutter makes its stripped version">
+              <span class="gui-slot">{% for w in woods %}<img class="gui-block" src="/assets/images/recipes/blocks/{{ w.id }}.png" alt="" width="48" height="48" data-tooltip="{{ w.name }}"{% unless forloop.first %} hidden{% endunless %} />{% endfor %}</span>
+              <div class="gui-pick">
+                <span class="gui-button">{% for w in woods %}<img class="gui-block" src="/assets/images/recipes/blocks/stripped_{{ w.id }}.png" alt="" width="48" height="48" data-tooltip="{{ w.stripped_name }}"{% unless forloop.first %} hidden{% endunless %} />{% endfor %}</span>
+                {{ arrow }}
+              </div>
+              <span class="gui-slot gui-slot-output">{% for w in woods %}<img class="gui-block" src="/assets/images/recipes/blocks/stripped_{{ w.id }}.png" alt="" width="48" height="48" data-tooltip="{{ w.stripped_name }}"{% unless forloop.first %} hidden{% endunless %} />{% endfor %}</span>
+            </div>
+            <p class="feature-text">
+              Strip logs, wood, stems and bamboo blocks in the stonecutter, without wearing down an axe.
+            </p>
+            <ul class="block-row">
+              {% for w in woods %}<li><img src="/assets/images/recipes/blocks/{{ w.id }}.png" alt="{{ w.name }}" width="48" height="48" loading="lazy" data-tooltip="{{ w.name }}" /></li>{% endfor %}
+            </ul>
+          </li>
+
+          <li class="recipe-card">
+            <h3 class="feature-title">Mini Blocks</h3>
+            {% assign minis = site.data.recipes.mini_blocks %}
+            <div class="gui gui-stonecutter" data-cycle role="img" aria-label="A block in the stonecutter makes 8 mini versions of it">
+              <span class="gui-slot">{% for m in minis %}<img class="gui-block" src="/assets/images/recipes/blocks/{{ m.id }}.png" alt="" width="48" height="48" loading="lazy" data-tooltip="{{ m.name }}"{% unless forloop.first %} hidden{% endunless %} />{% endfor %}</span>
+              <div class="gui-pick">
+                <span class="gui-button">{% for m in minis %}<img class="gui-block" src="/assets/images/recipes/mini/{{ m.id }}.png" alt="" width="48" height="48" loading="lazy" data-tooltip="§e{{ m.mini_name }}"{% unless forloop.first %} hidden{% endunless %} />{% endfor %}</span>
+                {{ arrow }}
+              </div>
+              <span class="gui-slot gui-slot-output">{% for m in minis %}<img class="gui-block" src="/assets/images/recipes/mini/{{ m.id }}.png" alt="" width="48" height="48" loading="lazy" data-tooltip="§e{{ m.mini_name }}"{% unless forloop.first %} hidden{% endunless %} />{% endfor %}<span class="gui-count">8</span></span>
+            </div>
+            <p class="feature-text">
+              Cut one block into 8 mini blocks for decoration. Works with over 200 blocks!
+            </p>
+          </li>
+
+          <li class="recipe-card">
+            <h3 class="feature-title">Painting Picker</h3>
+            <div class="gui gui-stonecutter" data-cycle role="img" aria-label="A painting in the stonecutter makes the painting you pick">
+              <span class="gui-slot"><img src="/assets/images/recipes/painting.png" alt="" width="16" height="16" data-tooltip="Painting" /></span>
+              <div class="gui-pick">
+                <span class="gui-button">{% for p in site.data.recipes.paintings %}<img src="/assets/images/recipes/painting.png" alt="" width="16" height="16" data-tooltip="{{ p.title | escape }}"{% unless forloop.first %} hidden{% endunless %} />{% endfor %}</span>
+                {{ arrow }}
+              </div>
+              <span class="gui-slot gui-slot-output">{% for p in site.data.recipes.paintings %}<img src="/assets/images/recipes/painting.png" alt="" width="16" height="16" data-tooltip="{{ p.title | escape }}"{% unless forloop.first %} hidden{% endunless %} />{% endfor %}</span>
+            </div>
+            <p class="feature-text">
+              Put a painting in the stonecutter to choose your favorite artwork.
+            </p>
+            {% assign painting_sizes = site.data.recipes.paintings | group_by_exp: "p", "p.width | append: 'x' | append: p.height" %}
+            <details class="recipe-details">
+              <summary>View all paintings</summary>
+              <div class="painting-groups">
+                {% for size in painting_sizes %}
+                <div class="painting-group">
+                  <span class="painting-size">{{ size.name }}</span>
+                  <ul class="painting-list">
+                    {% for p in size.items %}<li><img src="/assets/images/recipes/paintings/{{ p.id }}.png" alt="{{ p.title | escape }} by {{ p.author | escape }}" width="{{ p.width | times: 32 }}" height="{{ p.height | times: 32 }}" loading="lazy" data-tooltip="{{ p.title | escape }}" /></li>{% endfor %}
+                  </ul>
+                </div>
+                {% endfor %}
+              </div>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>

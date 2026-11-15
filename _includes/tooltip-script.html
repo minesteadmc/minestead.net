@@ -1,0 +1,104 @@
+{% comment %}
+  Minecraft-style item tooltips for anything with a data-tooltip attribute.
+  Lines are split by |, and a line can start with a Minecraft color code (§e, §7, §9...).
+  The first line is the item name, with a small gap under it like in game.
+  With a mouse the tooltip follows the cursor; on touch screens, tapping an item
+  shows its tooltip next to it and tapping anywhere else hides it.
+  Turn it on per page with include_tooltip_script: true in the front matter.
+{% endcomment %}
+<script>
+  (function () {
+    var tip = document.createElement('div');
+    tip.className = 'mc-tooltip';
+    tip.setAttribute('aria-hidden', 'true');
+    tip.hidden = true;
+    document.body.appendChild(tip);
+
+    var current = null;
+    var last = null; // last mouse position, to find what's under it after a recipe cycles
+    var OFFSET = 18;
+    var EDGE = 4;
+
+    function fill(el) {
+      tip.textContent = '';
+      el.getAttribute('data-tooltip').split('|').forEach(function (line, i) {
+        var code = 'f';
+        if (line.charAt(0) === '§') {
+          code = line.charAt(1).toLowerCase();
+          line = line.slice(2);
+        }
+        var span = document.createElement('span');
+        span.className = 'mc-line mc-c-' + code + (i === 0 ? ' mc-name' : '');
+        span.textContent = line;
+        tip.appendChild(span);
+      });
+    }
+
+    // Up and to the right of the point like in game, flipped to the left or
+    // pushed down when that would run off the screen.
+    function place(x, y) {
+      var w = tip.offsetWidth;
+      var h = tip.offsetHeight;
+      var left = x + OFFSET;
+      var top = y - OFFSET;
+      if (left + w > window.innerWidth - EDGE) left = Math.max(EDGE, x - OFFSET - w);
+      if (top + h > window.innerHeight - EDGE) top = window.innerHeight - EDGE - h;
+      tip.style.left = left + 'px';
+      tip.style.top = Math.max(EDGE, top) + 'px';
+    }
+
+    function show(el, x, y) {
+      current = el;
+      fill(el);
+      tip.hidden = false;
+      place(x, y);
+    }
+
+    function hide() {
+      current = null;
+      tip.hidden = true;
+    }
+
+    function target(e) {
+      return e.target.closest ? e.target.closest('[data-tooltip]') : null;
+    }
+
+    document.addEventListener('pointerover', function (e) {
+      if (e.pointerType === 'touch') return;
+      var el = target(e);
+      if (el && el !== current) show(el, e.clientX, e.clientY);
+    });
+
+    document.addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'touch') return;
+      last = { x: e.clientX, y: e.clientY };
+      if (current) place(e.clientX, e.clientY);
+    });
+
+    // A cycling recipe (cycle-script.html) swapped the item under the tooltip:
+    // show the new item's name, like the wiki does.
+    document.addEventListener('mc-cycle', function () {
+      if (!current || !current.hidden || !last) return;
+      var under = document.elementFromPoint(last.x, last.y);
+      var el = under && under.closest('[data-tooltip]');
+      if (el) show(el, last.x, last.y); else hide();
+    });
+
+    document.addEventListener('pointerout', function (e) {
+      if (e.pointerType === 'touch' || !current) return;
+      if (!e.relatedTarget || !current.contains(e.relatedTarget)) hide();
+    });
+
+    document.addEventListener('pointerup', function (e) {
+      if (e.pointerType !== 'touch') return;
+      var el = target(e);
+      if (!el || el === current) { hide(); return; }
+      var r = el.getBoundingClientRect();
+      show(el, r.right - OFFSET / 2, r.top + OFFSET);
+    });
+
+    window.addEventListener('scroll', function () {
+      if (current) hide();
+    }, { passive: true });
+  })();
+</script>

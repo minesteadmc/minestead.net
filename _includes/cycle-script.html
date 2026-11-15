@@ -1,0 +1,28 @@
+{% comment %}
+  Cycles recipes through their variants, like the Minecraft Wiki's recipe boxes.
+  Inside an element with data-cycle, each slot holds one <img> per variant, all but
+  the first marked hidden, in the same order in every slot. Every tick shows the next
+  variant in all slots together, then fires "mc-cycle" so an open tooltip can follow.
+  Variants can share an image and differ only in data-tooltip (the Painting Picker).
+  Without JavaScript the first variant just stays.
+  Turn it on per page with include_cycle_script: true in the front matter.
+{% endcomment %}
+<script>
+  (function () {
+    var INTERVAL = 2000;
+    var guis = document.querySelectorAll('[data-cycle]');
+    if (!guis.length) return;
+    var step = 0;
+    setInterval(function () {
+      step++;
+      guis.forEach(function (gui) {
+        gui.querySelectorAll('.gui-slot, .gui-button').forEach(function (slot) {
+          var imgs = slot.querySelectorAll(':scope > img');
+          if (imgs.length < 2) return;
+          imgs.forEach(function (img, i) { img.hidden = i !== step % imgs.length; });
+        });
+      });
+      document.dispatchEvent(new Event('mc-cycle'));
+    }, INTERVAL);
+  })();
+</script>
