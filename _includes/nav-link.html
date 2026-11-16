@@ -1,0 +1,4 @@
+{% comment %}
+  One navbar link from _data/nav.yml: a top-level button or a row in a dropdown.
+  Params: link (the nav entry). A placeholder entry renders as a greyed-out "Soon" row.
+{% endcomment %}{% assign link = include.link %}{% if link.placeholder %}<span class="nav-soon" aria-disabled="true">{{ link.title }}<span class="nav-soon-tag">Soon</span></span>{% else %}<a href="{{ link.url }}"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}{% if link.news %} class="nav-news"{% if site.posts.size > 0 %} data-latest-post="{{ site.posts.first.date | date_to_xmlschema }}"{% endif %}{% endif %}>{{ link.title }}{% if link.news %}{% include news-gem.html %}{% endif %}</a>{% endif %}

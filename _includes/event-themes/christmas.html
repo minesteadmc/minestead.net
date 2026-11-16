@@ -1,6 +1,7 @@
 {% comment %}
   Christmas theme. Called twice by event-panel.html:
   part="effects" goes behind the panel's content, part="art" sits beside the text.
+  part="thumb" is a plain image for the event's tile under Past events on /events.
   Colours, the background and the snowfall live under .event-theme-christmas in style.css.
 {% endcomment %}
 {% if include.part == 'effects' %}
@@ -59,4 +60,6 @@
     });
   });
 </script>
+{% elsif include.part == 'thumb' %}
+<img src="/assets/images/events/christmas/golem_scene.png" alt="A snow golem with a present" class="event-thumb" width="238" height="232" loading="lazy" />
 {% endif %}

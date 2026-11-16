@@ -1,0 +1,216 @@
+---
+layout: default
+title: "Events"
+description: "Upcoming and past events on Minestead."
+---
+{% comment %}
+  Events page, driven by _data/events.yml.
+  Two tabs (#past in the address opens the second):
+  Upcoming: the next event as a full card (the same panel as the home page), or a
+  "No events planned yet" panel, then every other upcoming event under
+  Coming up, as a tile in its theme.
+  Past: ended events as tiles, newest first, linking to the event's `recap:` if any.
+  Tile art is the event's `thumb:` image, or else its theme's part="thumb" image, or else
+  the site's pickaxe icon.
+  Both tile grids show 6 per page, with Back/Next when there are more.
+
+  What's upcoming or past is worked out in the browser (the script below), so the page stays
+  right between site builds. Dev site previews: ?draft includes drafts as if announced;
+  ?now=2027-01-10 shows the page as of that date.
+{% endcomment %}
+{% assign built_at = site.time | date: '%s' | plus: 0 %}
+{% assign events = site.data.events %}
+{% assign upcoming_at_build = false %}
+{% for event in events %}{% unless event.draft %}
+{% assign event_end = event.end | default: event.start %}
+{% assign ends_at = event_end | date: '%s' | plus: 0 %}
+{% if built_at < ends_at %}{% assign upcoming_at_build = true %}{% endif %}
+{% endunless %}{% endfor %}
+{% assign events_by_date = events | sort: 'start' %}
+{% assign events_newest_first = events_by_date | reverse %}
+<main>
+  <div class="wrapper">
+    <section id="events">
+
+    <h1 class="visually-hidden">Events</h1>
+
+    <div class="events-tabs" role="tablist" aria-label="Events">
+      <button type="button" role="tab" class="events-tab" id="events-tab-upcoming" aria-controls="events-upcoming" aria-selected="true">Upcoming<span class="events-tab-count"></span></button>
+      <button type="button" role="tab" class="events-tab" id="events-tab-past" aria-controls="events-past" aria-selected="false" tabindex="-1">Past<span class="events-tab-count"></span></button>
+    </div>
+
+    <div class="events-tab-panel" id="events-upcoming" role="tabpanel" aria-labelledby="events-tab-upcoming">
+
+    {% include event-panel.html events_page=true %}
+
+    <div class="events-empty"{% if upcoming_at_build %} hidden{% endif %}>
+      <div class="panel">
+        <p class="news-empty">No events planned yet.</p>
+      </div>
+    </div>
+
+    <div class="events-later" hidden>
+      <h2 class="events-heading">Coming up</h2>
+      <ul class="event-tiles">
+        {% for event in events_by_date %}{% unless event.draft and jekyll.environment != 'development' %}
+        {% assign event_end = event.end | default: event.start %}
+        <li class="event event-tile{% if event.theme %} event-theme-{{ event.theme }}{% endif %}{% if event.draft %} event-draft{% endif %}" data-id="{{ event.start }}-{{ event.title | slugify }}" data-start="{{ event.start }}" data-end="{{ event_end }}" hidden>
+          <div class="event-tile-panel">
+            {% include event-tile-date.html event=event %}
+            {% include event-tile-art.html event=event %}
+            {% assign offset = event.start | date: '%z' %}
+            <div class="event-tile-info">
+              <div class="event-tile-body">
+                <h3 class="event-tile-title">{{ event.title }}</h3>
+                <p class="event-tile-meta">{{ event.start | date: '%a' }} · {{ event.start | date: '%-I:%M %p' }}{% if offset == '-0600' %} CST{% elsif offset == '-0500' %} CDT{% endif %}</p>
+                <p class="event-tile-text">{{ event.text }}</p>
+              </div>
+            </div>
+          </div>
+        </li>
+        {% endunless %}{% endfor %}
+      </ul>
+      {% include events-pager.html %}
+    </div>
+
+    </div>
+
+    <div class="events-tab-panel" id="events-past" role="tabpanel" aria-labelledby="events-tab-past" hidden>
+      <div class="events-past-empty" hidden>
+        <div class="panel">
+          <p class="news-empty">No past events yet.</p>
+        </div>
+      </div>
+      <div class="events-past">
+      <ul class="event-tiles">
+        {% for event in events_newest_first %}{% unless event.draft and jekyll.environment != 'development' %}
+        {% assign event_end = event.end | default: event.start %}
+        <li class="event event-tile{% if event.theme %} event-theme-{{ event.theme }}{% endif %}{% if event.draft %} event-draft{% endif %}" data-start="{{ event.start }}" data-end="{{ event_end }}" hidden>
+          {% if event.recap %}<a class="event-tile-panel" href="{{ event.recap }}">{% else %}<div class="event-tile-panel">{% endif %}
+            {% include event-tile-date.html event=event %}
+            {% include event-tile-art.html event=event %}
+            <div class="event-tile-info">
+              <div class="event-tile-body">
+                <h3 class="event-tile-title">{{ event.title }}</h3>
+                {% if event.recap %}<span class="event-tile-recap">Read the recap</span>{% endif %}
+              </div>
+            </div>
+          {% if event.recap %}</a>{% else %}</div>{% endif %}
+        </li>
+        {% endunless %}{% endfor %}
+      </ul>
+      {% include events-pager.html %}
+      </div>
+    </div>
+
+    </section>
+  </div>
+</main>
+
+<script>
+  (function () {
+    var PER_PAGE = 6;
+    var nowMs = window.minesteadNow || Date.now;
+    // Drafts only on the dev site with ?draft, like the hero card
+    var showDrafts = !/(^|\.)minestead\.net$/.test(location.hostname) && /[?&]draft\b/.test(location.search);
+    var empty = document.querySelector('.events-empty');
+    var pastEmpty = document.querySelector('.events-past-empty');
+    var later = document.querySelector('.events-later');
+    var past = document.querySelector('.events-past');
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.events-tab'));
+    [later, past].forEach(function (group) { group.page = 1; });
+
+    function tiles(group) {
+      return Array.prototype.slice.call(group.querySelectorAll('.event-tile'));
+    }
+    function shown(tile) {
+      return showDrafts || !tile.classList.contains('event-draft');
+    }
+
+    // Shows one page of a group's tiles (the ones that belong in it right now) and its pager
+    function paginate(group, items) {
+      var pages = Math.max(1, Math.ceil(items.length / PER_PAGE));
+      group.page = Math.min(group.page, pages);
+      tiles(group).forEach(function (tile) { tile.hidden = true; });
+      items.forEach(function (tile, i) {
+        tile.hidden = Math.floor(i / PER_PAGE) + 1 !== group.page;
+      });
+      var pager = group.querySelector('.events-pager');
+      pager.hidden = pages < 2;
+      pager.querySelector('.pagination-info').textContent = 'Page ' + group.page + ' / ' + pages;
+      pager.querySelectorAll('button').forEach(function (button) {
+        var target = group.page + Number(button.getAttribute('data-step'));
+        var off = target < 1 || target > pages;
+        button.disabled = off;
+        button.className = off ? 'btn-disabled' : 'btn btn-green';
+      });
+    }
+
+    function update() {
+      var now = nowMs();
+      // The event panel script has already picked the next event and hidden the rest
+      var card = document.querySelector('#event .event:not([hidden])');
+      empty.hidden = !!card;
+      var cardId = card && card.getAttribute('data-id');
+      var laterItems = tiles(later).filter(function (tile) {
+        return shown(tile) && Date.parse(tile.getAttribute('data-end')) > now && tile.getAttribute('data-id') !== cardId;
+      });
+      var pastItems = tiles(past).filter(function (tile) {
+        return shown(tile) && Date.parse(tile.getAttribute('data-end')) <= now;
+      });
+      paginate(later, laterItems);
+      paginate(past, pastItems);
+      later.hidden = !laterItems.length;
+      past.hidden = !pastItems.length;
+      pastEmpty.hidden = !!pastItems.length;
+      setCount(tabs[0], laterItems.length + (card ? 1 : 0));
+      setCount(tabs[1], pastItems.length);
+    }
+
+    function setCount(tab, n) {
+      tab.querySelector('.events-tab-count').textContent = n ? n : '';
+    }
+
+    // Tabs: Upcoming and Past. The open tab is kept in the address (#past), so it can be
+    // linked to and survives a reload.
+    function selectTab(tab, focus) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tab.focus();
+      var hash = tab === tabs[1] ? '#past' : '';
+      if (location.hash !== hash) history.replaceState(null, '', location.pathname + location.search + hash);
+    }
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { selectTab(tab); });
+      tab.addEventListener('keydown', function (e) {
+        var step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        selectTab(tabs[(i + step + tabs.length) % tabs.length], true);
+      });
+    });
+    if (location.hash === '#past') selectTab(tabs[1]);
+    window.addEventListener('hashchange', function () {
+      selectTab(location.hash === '#past' ? tabs[1] : tabs[0]);
+    });
+
+    [later, past].forEach(function (group) {
+      group.querySelectorAll('.events-pager button').forEach(function (button) {
+        button.addEventListener('click', function () {
+          group.page += Number(button.getAttribute('data-step'));
+          update();
+          var top = document.querySelector('.events-tabs');
+          if (top.getBoundingClientRect().top < 0) top.scrollIntoView();
+        });
+      });
+    });
+
+    update();
+    // Keep up as events start and end while the page is open
+    setInterval(update, 5000);
+  })();
+</script>

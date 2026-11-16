@@ -1,6 +1,7 @@
 {% comment %}
   Ender Dragon theme. Called twice by event-panel.html:
   part="effects" goes behind the panel's content, part="art" sits beside the text.
+  part="thumb" is a plain image for the event's tile under Past events on /events.
   Colours and the background live under .event-theme-dragon in style.css.
 {% endcomment %}
 {% if include.part == 'effects' %}
@@ -9,4 +10,6 @@
   data-count="10" data-left="62-98"></div>
 {% elsif include.part == 'art' %}
 <img src="/assets/images/events/dragon/ender_dragon.png" alt="The Ender Dragon" class="event-art" width="919" height="559" />
+{% elsif include.part == 'thumb' %}
+<img src="/assets/images/events/dragon/ender_dragon.png" alt="The Ender Dragon" class="event-thumb" width="919" height="559" loading="lazy" />
 {% endif %}

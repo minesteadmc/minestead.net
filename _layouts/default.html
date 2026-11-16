@@ -41,11 +41,21 @@
       <div class="header-inner">
         <a class="logo" href="/"><img src="/assets/images/logo.png" alt="Minestead" class="logo-wordmark" width="1020" height="128"></a>
         <nav>
-          <a href="/#rules">Rules</a>
-          <a href="https://map.minestead.net" target="_blank" rel="noopener noreferrer">Map</a>
-          <a href="https://archive.minestead.net" target="_blank" rel="noopener noreferrer">Archive</a>
-          <a href="/vote">Vote</a>
-          <a href="/news" class="nav-news"{% if site.posts.size > 0 %} data-latest-post="{{ site.posts.first.date | date_to_xmlschema }}"{% endif %}>News{% include news-gem.html %}</a>
+          {% for item in site.data.nav %}{% if item.items %}
+          {% assign group_news = item.items | where: "news", true | first %}
+          <details class="nav-group">
+            {%- comment -%} Gem output is stripped: a trailing newline becomes an extra flex item in the summary {%- endcomment -%}
+            {% if group_news %}{% capture group_gem %}{% include news-gem.html id="news-gem-clip-group" %}{% endcapture %}{% endif %}
+            <summary{% if group_news %} class="nav-news-parent"{% endif %}>{{ item.title }}{% if group_news %}{{ group_gem | strip }}{% endif %}</summary>
+            <div class="nav-menu">
+              {% for link in item.items %}
+              {% include nav-link.html link=link %}
+              {% endfor %}
+            </div>
+          </details>
+          {% else %}
+          {% include nav-link.html link=item %}
+          {% endif %}{% endfor %}
         </nav>
       </div>
     </div>
@@ -55,6 +65,14 @@
 
   <footer>
     <div class="wrapper">
+      <ul class="footer-links">
+        <li><a href="/">Home</a></li>
+        {% for item in site.data.nav %}{% if item.items %}{% for link in item.items %}{% unless link.placeholder %}
+        <li><a href="{{ link.url }}"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.title }}</a></li>
+        {% endunless %}{% endfor %}{% elsif item.placeholder != true %}
+        <li><a href="{{ item.url }}"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ item.title }}</a></li>
+        {% endif %}{% endfor %}
+      </ul>
       <p>&copy; Minestead. All rights reserved.</p>
       <p>Not affiliated with Mojang Studios or Microsoft.</p>
     </div>
@@ -69,7 +87,58 @@
       if (!isNaN(latest) && Date.now() - latest < WEEK) {
         link.classList.add('has-new');
         link.setAttribute('aria-label', 'News (new post)');
+        // News inside a dropdown: show the gem on the dropdown's button too
+        var parent = link.closest('.nav-group') && link.closest('.nav-group').querySelector('.nav-news-parent');
+        if (parent) {
+          parent.classList.add('has-new');
+          parent.setAttribute('aria-label', parent.textContent.trim() + ' (new post)');
+        }
       }
+    })();
+
+    // Nav dropdowns: open on hover with a mouse, on click/tap/keyboard otherwise.
+    // Only one open at a time; close on a click outside, on Escape, or when focus leaves.
+    (function () {
+      var groups = Array.prototype.slice.call(document.querySelectorAll('.nav-group'));
+      if (!groups.length) return;
+      var canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+      groups.forEach(function (group) {
+        var closeTimer;
+        group.addEventListener('toggle', function () {
+          if (!group.open) return;
+          groups.forEach(function (other) { if (other !== group) other.open = false; });
+        });
+        group.addEventListener('mouseenter', function () {
+          if (!canHover.matches) return;
+          clearTimeout(closeTimer);
+          group.open = true;
+        });
+        group.addEventListener('mouseleave', function () {
+          if (!canHover.matches) return;
+          closeTimer = setTimeout(function () { group.open = false; }, 250);
+        });
+        // Hovering already opened it, so a mouse click on the button shouldn't close it.
+        // Keyboard activation (detail 0) still toggles as normal.
+        group.querySelector('summary').addEventListener('click', function (e) {
+          if (canHover.matches && e.detail > 0 && group.open) e.preventDefault();
+        });
+        group.addEventListener('focusout', function (e) {
+          if (!group.contains(e.relatedTarget)) group.open = false;
+        });
+      });
+      document.addEventListener('click', function (e) {
+        groups.forEach(function (group) {
+          if (group.open && !group.contains(e.target)) group.open = false;
+        });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        groups.forEach(function (group) {
+          if (!group.open) return;
+          group.open = false;
+          group.querySelector('summary').focus();
+        });
+      });
     })();
   </script>
   {% if page.include_ip_script %}{% include ip-script.html %}{% endif %}

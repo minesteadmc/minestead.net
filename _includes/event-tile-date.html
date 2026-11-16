@@ -1,0 +1,4 @@
+{% comment %}
+  Calendar-style date block for an event tile on /events: month, day and year.
+  Params: event.
+{% endcomment %}<time class="event-tile-when" datetime="{{ include.event.start }}"><span class="event-tile-month">{{ include.event.start | date: '%b' }}</span><span class="event-tile-day">{{ include.event.start | date: '%-d' }}</span><span class="event-tile-year">{{ include.event.start | date: '%Y' }}</span></time>

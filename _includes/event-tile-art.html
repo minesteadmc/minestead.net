@@ -1,0 +1,5 @@
+{% comment %}
+  Art for an event tile on /events: the event's own `thumb:` image, or else its theme's
+  part="thumb" image, or else the site's pickaxe icon, so every tile in the grid lines up.
+  Params: event.
+{% endcomment %}{% assign event = include.event %}<div class="event-tile-art">{% if event.thumb %}<img src="{{ event.thumb }}" alt="" class="event-thumb event-thumb-icon" loading="lazy" />{% elsif event.theme %}{% capture theme_file %}event-themes/{{ event.theme }}.html{% endcapture %}{% include {{ theme_file }} part="thumb" %}{% else %}<img src="/assets/images/favicon.png" alt="" class="event-thumb event-thumb-icon" width="16" height="16" loading="lazy" />{% endif %}</div>

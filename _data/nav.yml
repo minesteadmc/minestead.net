@@ -1,0 +1,39 @@
+# Site navigation, used by the header and the footer (_layouts/default.html).
+# A top-level entry with `url` is a navbar button; one with `items` is a dropdown.
+# Every link is also listed in the footer, in this order.
+#
+#   title:       button, dropdown or link text
+#   url:         path or full URL
+#   items:       links inside a dropdown (each takes the options below)
+#   external:    true to open in a new tab
+#   news:        true to show the new-post gem (only meant for News). Inside a dropdown,
+#                the dropdown's button gets the gem too.
+#   placeholder: true for a page that doesn't exist yet: shown greyed out with "Soon",
+#                not a link, and left out of the footer. Leave out `url`.
+
+- title: Server
+  items:
+    - title: Rules
+      url: /#rules
+    - title: Recipes
+      url: /recipes
+
+- title: Maps
+  items:
+    - title: Live Map
+      url: https://map.minestead.net
+      external: true
+    - title: Archive
+      url: https://archive.minestead.net
+      external: true
+
+- title: Community
+  items:
+    - title: Vote
+      url: /vote
+    - title: Events
+      url: /events
+
+- title: News
+  url: /news
+  news: true

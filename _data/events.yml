@@ -1,5 +1,7 @@
 # Events shown in a panel on the home page, under Join. Only one shows at a time: the
 # earliest one that hasn't ended yet. When it ends, the next one takes its place.
+# The events page (/events) shows every upcoming event, and lists ended ones under Past events,
+# so keep events here after they end.
 #
 #   theme:      look of the panel; matches _includes/event-themes/<theme>.html and the
 #               .event-theme-<theme> styles in style.css. Leave out for the plain site look.
@@ -10,9 +12,14 @@
 #   text:       the call to action, one line.
 #   prizes:     optional second line.
 #   live, live_note: shown in place of the countdown while the event is happening.
-#   draft:      true keeps an event off the live site. On the dev site it's hidden too, unless
-#               you add ?draft to the address (then it always shows), for designing a card.
-#   Dev site previews: ?live shows events as if they had started; ?draft&live does both.
+#   recap:      optional link (e.g. a news post) for the event's entry under Past events on /events.
+#   thumb:      optional image for the event's tile on /events, in place of the theme's (events
+#               with neither get the site's pickaxe icon).
+#               A small pixel-art icon (e.g. a 16x16 or 48x48 item) is scaled up crisply.
+#   draft:      true keeps an event off the live site and the home page. Preview it on the
+#               dev site at /events/?draft, where it takes its place in date order.
+#   Dev site previews: ?live shows events as if they had started; ?now=2027-01-10 shows
+#               everything as of that date. They combine, e.g. /events/?draft&now=2026-12-19
 
 - theme: dragon
   title: Help Defeat the Dragon!
