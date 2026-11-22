@@ -1,6 +1,9 @@
 # Server list sites shown on /vote, in display order.
 # `action` is the button label and defaults to "Vote".
+# MC-Servers.com is first: it's the smallest list, so each vote moves Minestead up the most there.
 
+- name: MC-Servers.com
+  url: https://mc-servers.com/server/7448
 - name: MinecraftServers.org
   url: https://minecraftservers.org/server/695837
 - name: Minecraft-MP.com
@@ -9,5 +12,3 @@
   url: https://minecraft-server-list.com/server/524777/
 - name: Minecraft-ServerList.com
   url: https://minecraft-serverlist.com/server/7088
-- name: MC-Servers.com
-  url: https://mc-servers.com/server/7448
